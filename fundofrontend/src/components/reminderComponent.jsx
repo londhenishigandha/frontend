@@ -33,7 +33,7 @@ function searchingFor(search) {
 }
 
 
-export default class Notes extends Component {
+export default class Reminder extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -45,7 +45,7 @@ export default class Notes extends Component {
             modal: false,
             isArchived: false,
             color: "",
-            search: [],
+            
         }
     }
 
@@ -68,14 +68,14 @@ export default class Notes extends Component {
 
     handleToggleOpen = (id, oldTitle, oldContent) => {
         // it checks for the previous state
-        this.setState({
-            modal: !this.state.modal,
-            noteId: id,
-            title: oldTitle,
-            content: oldContent
+        this.setdeleteNoteState({
+            modadeleteNotel: !this.state.modal,
+            notedeleteNoteId: id,
+            titldeleteNotee: oldTitle,
+            contdeleteNoteent: oldContent
         });
-        console.log("id ......", id);
-        console.log("note id ......", this.state.noteId);
+        console.deleteNotelog("id ......", id);
+        console.deleteNotelog("note id ......", this.state.noteId);
     }
 
     handleClose = () => {
@@ -130,35 +130,20 @@ export default class Notes extends Component {
             })
     }
 
-    handleColor = (value , noteId ) => {
+    handleColor = (noteId, value) => {
         console.log("Value in handlecolor", value);
 
         this.setState({
             color: value
         })
         console.log(this.state.color)
+
         var data = {
+            'id': noteId,
             'color': value
+
         }
-        updateNote(noteId, data)
-                .then(response => {
-                    console.log("update note function", response);
-                    // this.getUpdateNotes();
-                    this.handleClickSnackbar("Note Updated successfully");
-                    this.getNotes();
-                })
-                .catch(err => {
-                    console.log("Eroorrrrrr....", err);
-                })
-        // deleteNote(data)
-        //     .then(response => {
-        //         console.log("Response from backend", response);
-
-
-        //     })
-        //     .catch(err => {
-        //         console.log("Error at color notes", err);
-        //     })
+        
     }
     handleDelete = (noteId) => {
         var data = {
@@ -166,7 +151,7 @@ export default class Notes extends Component {
             'is_deleted': true
 
         }
-        deleteNote(noteId)
+        deleteNote(data)
             .then(response => {
                 console.log("Response from backend: ", response);
                 this.getNotes();
@@ -176,12 +161,15 @@ export default class Notes extends Component {
                 console.log("Error in delete notes", err);
 
             })
+
+
     }
 
     render() {
         const views = this.props.view ? "list" : null
-        const notes = this.state.allNotes.filter(searchingFor(this.props.search)).map(key => {
+        const notes = this.state.allNotes.map(key => {
             return (
+                (key.reminder !== null ) &&
                 <div>
                     <MuiThemeProvider theme={theme}>
                         <Card className="Mainnotes"
@@ -189,7 +177,7 @@ export default class Notes extends Component {
                             id={views}
                         >
 
-                            <div >
+                            <div>
 
                                 <InputBase className="noteiinput"
                                     multiline
@@ -228,12 +216,10 @@ export default class Notes extends Component {
                                         </Tooltip>
                                     </div>
                                     <div>
-                                    <Tooltip title="Change color">
                                         <ColorPallete
                                             toolsPropsToColorpallete={this.handleColor}
                                             noteID={key.id}
                                         ></ColorPallete>
-                                        </Tooltip>
                                     </div>
                                     <div>
                                         <Tooltip title="Archive">
@@ -308,11 +294,11 @@ export default class Notes extends Component {
                                         onfocus=" "
                                         name="content">
                                     </InputBase>
-                                {/* </div> */}
-                                <div className="IconBottom"
-                                >
+                                </div>
+
+                                <div className="IconBottom">
                                     <div>
-                                        <Tooltip title="reminder">
+                                        <Tooltip title="Reminder">
                                             <img src={require('../assets/images/reminderIcon.svg')}
                                                 alt="reminder"
                                             />
@@ -326,10 +312,13 @@ export default class Notes extends Component {
                                         </Tooltip>
                                     </div>
                                     <div>
-                                        <ColorPallete
-                                            toolsPropsToColorpallete={this.handleColor}
-                                            noteID={key.id}
-                                        ></ColorPallete>
+                                        <Tooltip title="Color">
+                                            <img src={require('../assets/images/colorPalette.svg')}
+                                                alt="Color"
+                                                onClick={() => this.handleColor}
+                                                style={{ cursor: "pointer" }}
+                                            />
+                                        </Tooltip>
                                     </div>
                                     <div>
                                         <Tooltip title="Archive">
@@ -343,16 +332,16 @@ export default class Notes extends Component {
                                     <div>
                                         <Tooltip title="Add Image">
                                             <img src={require('../assets/images/addImageIcon.svg')}
-                                                alt="Add image"
+                                                alt="Add Image"
                                             />
                                         </Tooltip>
                                     </div>
 
                                     <div>
                                         <Tooltip title="More">
+
                                             <MoreOptions
-                                                PropsToDelete={this.handleDelete}
-                                                noteID={key.id}></MoreOptions>
+                                                PropsToDelete={this.handleDelete}></MoreOptions>
                                         </Tooltip>
                                     </div>
                                     <div>
@@ -362,7 +351,7 @@ export default class Notes extends Component {
                                     </div>
                                 </div>
 
-                            </div>
+
                             </Card>
 
                         </Dialog>

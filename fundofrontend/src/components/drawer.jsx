@@ -14,6 +14,26 @@ class DrawerMenu extends Component {
    
         }
     }
+
+    handleArchive = () => {
+        console.log("drawer props", this.props);
+        this.props.props.history.push('/archive');
+    }
+    
+    handleReminder = () => {
+        console.log("drawer props", this.props);
+        this.props.props.history.push('/reminder');
+    }
+    
+    handleTrash = () => {
+        console.log("drawer props", this.props);
+        this.props.props.history.push('/trash');
+    }
+    
+    handleNote = () => {
+        console.log("drawer props", this.props);
+        this.props.props.history.push('/dashboard');
+    }
     
         
     
@@ -26,7 +46,7 @@ class DrawerMenu extends Component {
                     width={250}
                 >
                     <div>
-                    <MenuItem id="noteMenu" >
+                    <MenuItem id="noteMenu" onClick={this.handleNote}>
                         <img src={require('../assets/images/note.svg')} alt="note icon"
                             style={{ marginRight: "40px" }} />
                         Notes
@@ -34,7 +54,7 @@ class DrawerMenu extends Component {
                     </div>
                    
                     <div>
-                    <MenuItem id="reminderMenu" >
+                    <MenuItem id="reminderMenu" onClick={this.handleReminder}>
                         <img src={require('../assets/images/menuReminder.svg')} alt="reminder icon"
                             style={{ marginRight: "40px" }} />
                         Remainder
@@ -48,7 +68,7 @@ class DrawerMenu extends Component {
 
                         <div>
                           
-                            <MenuItem>
+                            <MenuItem >
                             
 
                                 <img src={require('../assets/images/menuEdit.svg')} alt="edit icon"
@@ -60,16 +80,16 @@ class DrawerMenu extends Component {
                     </div>
                     <div>
 
-                    <MenuItem id="archiveMenu" >
+                    <MenuItem id="archiveMenu" onClick={this.handleArchive}>
                         <img src={require('../assets/images/menuArchive.svg')} alt="archive icon"
                             style={{ marginRight: "40px" }} />
                         Archive
                     </MenuItem>
                     </div>
 
-                    <div onClick={this.handleTrash}>
+                    <div >
 
-                    <MenuItem id="trashIcon"  >
+                    <MenuItem id="trashIcon"  onClick={this.handleTrash}>
                         <img src={require('../assets/images/menuTrash.svg')} alt="trash icon"
                             style={{ marginRight: "40px" }} />
                         Trash

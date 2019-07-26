@@ -39,7 +39,8 @@ class Dashboard extends Component {
           <div className="container">
             <DashboardComponent
               listview={this.list_grid_view}
-              getSearchNote={this.search} />
+              getSearchNote={this.search} 
+              props={this.props}/>
           </div>
           <div>
             <CreateNote></CreateNote>
@@ -48,6 +49,7 @@ class Dashboard extends Component {
             <Notes
               view={this.state.view}
               search={this.state.search}
+              props ={this.props}
             ></Notes>
           </div>
         </div>

@@ -71,7 +71,7 @@ class MoreOptions extends Component {
                                         !this.state.addLabel ?
                                             <div>
                                                 <MenuItem onClick={this.handleDelete}>Delete Note</MenuItem>
-                                                {/* <MenuItem onClick={this.handleAddLabel}>Add Label</MenuItem> */}
+                                                 <MenuItem onClick={Option}>Add Label</MenuItem>
                                                 {/* <MenuItem onClick={this.handleEditor}> */}
                                                     {/* Ask A Question</MenuItem> */}
                                             </div>

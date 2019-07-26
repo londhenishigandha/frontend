@@ -7,6 +7,8 @@ import Dashboard from './pages/dashboard'
 import Forgot from './pages/forgot'
 import Notes from './pages/notes'
 import resetpass from './pages/resetpass'
+import Archive from './pages/archive';
+import Reminder from './pages/reminder';
 
 
 class App extends Component {
@@ -21,7 +23,10 @@ class App extends Component {
             <Route path="/login" component={Login}></Route>
            <Route path='/dashboard' component={Dashboard}></Route>    
            <Route path='/notes' component={Notes}></Route>   
-           <Route path='/resetpassword' component={resetpass}></Route>          
+           <Route path='/resetpassword' component={resetpass}></Route>   
+           <Route path='/archive' component={Archive}></Route>
+           <Route path='/reminder' component={Reminder}></Route>          
+
         </Router>
       </div>
     );

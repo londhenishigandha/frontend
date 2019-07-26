@@ -3,6 +3,7 @@ import { Card, InputBase, Button, Tooltip } from '@material-ui/core';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
 import { userNotes } from '../services/noteService';
 import { withRouter } from 'react-router-dom'
+import ColorPallete from './colorPalette';
 
 const theme = createMuiTheme({
     overrides: {
@@ -35,9 +36,11 @@ class CreateNote extends Component {
             image: "",
             is_trash: "",
             is_archieve: "",
-            is_deleted: "",
             is_pin: "",
+            color:''
         }
+
+        this.handleColor = this.handleColor.bind(this);
     }
     handleNotes = () => {
         this.setState({
@@ -71,9 +74,11 @@ class CreateNote extends Component {
         })
     }
     handleColor(value) {
-        const color = event.target.value;
+        // const color = event.target.value;
+        console.log("color", value);
+        
         this.setState({
-            color: color
+            color: value
         })
     }
 
@@ -97,7 +102,8 @@ class CreateNote extends Component {
         })
         var data = {
             'content': this.state.content,
-            'title': this.state.title
+            'title': this.state.title,
+            'color': this.state.color
         }
         console.log('data in note create ==>', data);
 
@@ -126,8 +132,7 @@ class CreateNote extends Component {
                             <div  onClick={this.handleNotes}>
                                 <InputBase className="noteiinput"
                                     multiline
-                                    placeholder="Take a Note....."
-                                    
+                                    placeholder="Take a Note....." 
                                    
                                 >
                                 </InputBase>
@@ -192,11 +197,10 @@ class CreateNote extends Component {
                                 </Tooltip>
                                 </div>
                                 <div>
-                                <Tooltip title="Color"> 
-                                    <img src={require('../assets/images/colorPalette.svg')}
-                                        alt="Color"
-                                    />
-                                </Tooltip>
+                               <ColorPallete 
+                                 toolsPropsToColorpallete={this.handleColor}
+                                 noteID = ''
+                               />
                                 </div>
                                 <div>
                                 <Tooltip title="Archive"> 

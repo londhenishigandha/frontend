@@ -19,8 +19,8 @@ export function getAllNotes() {
     })
 }
 
-export function updateNote(data) {
-    return axios.put(`http://127.0.0.1:8000/notesview/${data.id}/`, data, {
+export function updateNote(note_id, data) {
+    return axios.put(`http://127.0.0.1:8000/notesview/${note_id}/`, data, {
       headers: {
         "Authorization": localStorage.getItem("token")
       }
@@ -46,7 +46,6 @@ export function updateImages(data){
   })
 }
 
-
 export function colorChange(data) {
   return axios.post('http://127.0.0.1:8000/notes/', data, {
 
@@ -57,8 +56,11 @@ export function colorChange(data) {
   })
   
 }
+
 export function deleteNote(data) {
-  return axios.post('http://127.0.0.1:8000/notes/', data, {
+  console.log("Noote ",data);
+  
+  return axios.delete('http://127.0.0.1:8000/notesview/'+data, {
 
     headers: {
       "Authorization": localStorage.getItem("token")
@@ -66,4 +68,28 @@ export function deleteNote(data) {
 
   })
   
+}
+
+export function setReminder(data){
+  return axios.put('http://127.0.0.1:8000/notes/', data,{
+      headers: {
+          "Authorization": localStorage.getItem("token")
+      }
+  })
+}
+
+// export function archiveNote(data){
+//   return axios.put('http://127.0.0.1:8000/notes/', data,{
+//       headers: {
+//           "Authorization": localStorage.getItem("token")
+//       }
+//   })
+// }
+
+export function trash(data){
+  return axios.put('http://127.0.0.1:8000/notes/', data,{
+      headers: {
+          "Authorization": localStorage.getItem("token")
+      }
+  })
 }

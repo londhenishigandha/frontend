@@ -104,6 +104,9 @@ class DashboardComponent extends Component {
   render() {
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
+
+    console.log("dashboard props", this.props);
+    
     return (
       <MuiThemeProvider theme={thm}>
         <div>
@@ -207,6 +210,7 @@ class DashboardComponent extends Component {
             </Toolbar>
             <Drawer
               appBarProps={this.state.open}
+              props={this.props}
             />
           </AppBar>
         </div>

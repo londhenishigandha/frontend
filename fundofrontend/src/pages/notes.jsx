@@ -4,7 +4,9 @@ class Note extends Component{
     render(){
         return (
             <div className="container">
-              <Notes/>
+              <Notes
+              props = {this.props}
+              />
             </div>
         );
     }
