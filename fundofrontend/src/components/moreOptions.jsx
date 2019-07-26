@@ -24,33 +24,6 @@ class MoreOptions extends Component {
         }
     }
 
-    // open=()=>{
-    // this.setState({open:!this.state.open})
-
-    // }
-    // handleEditor=(e)=>{
-    // this.props.moreToEditorPorps(e.target.value,this.props.noteID)
-    // console.log("more option editor value",e.target.value);
-
-
-    // }
-
-    // QuePropsToAllNotes = (value) => {
-    //     this.setState({
-    //         queAns: value
-    //     })
-    //     this.props.QuePropsToAllNotes(this.state.queAns)
-
-    // }
-    // handleIdToEditor=()=>{
-    // this.props.IdtoEditor(this.props.noteID)
-    // }
-
-    // handleEditor = () => {
-    //     this.props.propsToEditor()
-
-    // }
-
     render() {
         return (
             <PopupState variant="popper" >
@@ -72,8 +45,6 @@ class MoreOptions extends Component {
                                             <div>
                                                 <MenuItem onClick={this.handleDelete}>Delete Note</MenuItem>
                                                  <MenuItem onClick={Option}>Add Label</MenuItem>
-                                                {/* <MenuItem onClick={this.handleEditor}> */}
-                                                    {/* Ask A Question</MenuItem> */}
                                             </div>
                                             :
                                             <div>

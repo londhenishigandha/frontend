@@ -1,423 +1,238 @@
-import React, { Component } from 'react';
-import { Card, CardBody, CardTitle, CardLink, Label, Container } from 'reactstrap';
-import 'react-toastify/dist/ReactToastify.min.css';
-import Reminder from './Reminder'
-import ColorPallete from './Color';
-import Tooltip from '@material-ui/core/Tooltip';
-import { Chip, Dialog, InputBase } from '@material-ui/core';
-import { makeStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import MoreOptions from './MoreOptions';
-import GetNote from '../services/NoteServices';
-import CollaboratorComponent from './CollaboratorComponent';
+// import CreateNote from './createNote';
+import React, { Component } from 'react'
+import { getAllNotes, archiveNote, trash } from '../services/noteService';
+import { updateNote, colorChange, deleteNote } from '../services/noteService';
+import { Card, InputBase, Dialog, Button, Tooltip } from '@material-ui/core';
+import ColorPallete from './colorPalette';
+import MoreOptions from '../components/moreOptions'
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
 
-const NoteService = new GetNote();
-const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-        justifyContent: 'center',
-        flexWrap: 'wrap',
-    },
-    chip: {
-        margin: theme.spacing(1),
-    },
-}));
 
-const thm = createMuiTheme({
+const theme = createMuiTheme({
     overrides: {
-        MuiDialog:{
-            paperWidthSm:{
-                overflow: "visible",
-                borderRadius:"10px",
+        MuiCard: {
+            root: {
+                'width': "288px",
+                "display": "flex",
+                "padding": "10px",
+                "overflow": "hidden",
+                "margin-top": "76px",
+                "line-height": "58px",
+                "border-radius": "12px",
             }
         }
+
     }
-});
+})
+
 
 function searchingFor(search) {
     return function (x) {
-        return x.title.includes(search) || x.description.includes(search)
+        return x.title.includes(search) || x.content.includes(search)
     }
 }
 
-class TrashComponent extends Component {
+
+export default class TrashComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            noteId: '',
-            title: '',
-            description: '',
-            modal: false,
             allNotes: [],
+            open: false,
+            title: '',
+            content: '',
+            noteId: '',
+            modal: false,
+            search: [],
         }
     }
-    
-    componentDidMount(){
-        this.getUpdatedNotes();
-    }
-    getUpdatedNotes(){
-        NoteService.getTrashNotes()
-        .then(response => {
-            console.log("getALl notes in trash component ", response);
-            this.setState({
-                allNotes: response.data.data.data
-            })
-            
-        })
-    }
-    handleToggleOpen = (id, oldTitle, oldDescription) => {
-        this.setState(prevState => ({
-            modal: !prevState.modal,
-            noteId: id,
-            title: oldTitle,
-            description: oldDescription
-        }));
 
+    componentDidMount() {
+        this.getNotes();
+    }
+
+    getNotes() {
+        trash()
+            .then(response => {
+                console.log("reponse", response.data);
+                this.setState({
+                    allNotes: response.data
+                })
+            })
+            .catch(err => {
+                console.log("error", err);
+            })
+    }
+
+    handleToggleOpen = (id, oldTitle, oldContent) => {
+        // it checks for the previous state
+        this.setdeleteNoteState({
+            modal: !this.state.modal,
+            NoteId: id,
+            title: oldTitle,
+            content: oldContent
+        });
         console.log("id ......", id);
         console.log("note id ......", this.state.noteId);
-
-        //update existing Note
-        try {
-            if (this.state.modal && (this.state.description !== oldTitle || this.state.title !== oldDescription)) {
-                var data = {
-                    'noteId': this.state.noteId,
-                    'title': this.state.title,
-                    'description': this.state.description
-                }
-                let formData = new FormData();    //formdata object
-                formData.append('noteId', this.state.noteId);
-                formData.append('title', this.state.title);   //append the values with key, value pair
-                formData.append('description', this.state.description);
-
-                console.log("get all note data", data);
-
-                NoteService.updateNote(data)
-                    .then(response => {
-                        console.log("uddate note function", response);
-                        this.getUpdatedNotes();
-                    })
-                    .catch(err => {
-                        console.log("Eroorrrrrr....", err);
-                    })
-            }
-        } catch {
-        }
     }
 
-    handleClose = () => {
-        this.setState({
-            modal: false
-        })
-    }
-
-    handleDeleteChip = (noteId) => {
-        var note = {
-            'noteIdList': [noteId],
-            'reminder': []
-        }
-
-        NoteService.removeReminderNotes(note)
-            .then(response => {
-                console.log("update reminder >>>", response);
-            })
-            .catch(err => {
-                console.log("Eroorrrrrr....", err);
-            })
-    }
-
-    handleReminder = (reminderdate, noteId) => {
-        console.log(reminderdate);
-        this.setState({ reminder: reminderdate })
-        var note = {
-            'noteIdList': [noteId],
-            'reminder': reminderdate,
-        }
-        NoteService.updateReminderNotes(note)
-            .then(response => {
-                console.log("update reminder >>>", response);
-                this.getUpdatedNotes();
-            })
-            .catch(err => {
-                console.log("Eroorrrrrr....", err);
-            })
-    }
-
-    handleColorChanger = (value, noteId) => {
-        this.setState({ color: value })
-        var note = {
-            'noteIdList': [noteId],
-            'color': value,
-        }
-
-        NoteService.changesColorNotes(note)
-            .then(() => {
-                this.getUpdatedNotes();
-            })
-            .catch(err => {
-                console.log("Eroorrrrrr....", err);
-            })
-    }
-
-    handleDeleteNote = (noteId) => {
-        var note = {
-            'noteIdList': [noteId],
-            'isDeleted': true
-        }
-
-        NoteService.trashNote(note)
-            .then(response => {
-                console.log(response);
-                let newArray = this.state.allNotes
-                console.log("new array", newArray);
-                this.getUpdatedNotes();
-            })
-            .catch(err => {
-                console.log("Eroorrrrrr....", err);
-            })
-    }
-
-    handleChange = (e) => {
+    handleChangeEvent = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    removeCollaborator = (value) => {
-        if (value) {
-            this.getUpdatedNotes();
+    handleSubmit = () => {
+        this.setState(prevState => ({
+            modal: !prevState.modal,
+        }))
+        if (this.state.modal) {
+            var data = {
+                'id': this.state.noteId,
+                'title': this.state.title,
+                'content': this.state.content
+            }
+            // for Update the note
+            updateNote(data)
+                .then(response => {
+                    console.log("update note function", response);
+                    this.getUpdateNotes();
+                    this.handleClickSnackbar("Note Updated successfully");
+                    this.getNotes();
+                })
+                .catch(err => {
+                    console.log("Eroorrrrrr....", err);
+                })
         }
-
     }
+    
+    handleDelete = (noteId) => {
+        var data = {
+            'id': noteId,
+            'is_deleted': true
 
-    saveCollaborator = (value) => {
-        if (value) {
-            this.getUpdatedNotes();
         }
+        deleteNote(data)
+            .then(response => {
+                console.log("Response from backend: ", response);
+                this.getNotes();
+
+            })
+            .catch(err => {
+                console.log("Error in delete notes", err);
+
+            })
     }
 
     render() {
-        var listgridvalue = this.props.listGridView;
-        const listgridview = listgridvalue ? "list-view-archive" : "default-view";
-        const modalbottom = listgridvalue ? "list-view-bottom" : "card-bottom";
-        const listView = listgridvalue ? null : "card-grid";
-        const allTrash = this.state.allNotes.filter(searchingFor(this.props.searchNote)).map(key => {
-            // console.log("key data",key)
+        const views = this.props.view ? "list" : null
+        const notes = this.state.allNotes.map(key => {
             return (
-                    ( key.isDeleted === true) &&
-                    <div key={key.id} className={listgridview}>
-                         <MuiThemeProvider theme={thm}>
-                            <Container className="card-margin" >
-                                <Card className="take-note-user-card-description "
-                                    onChange={() => this.handleColorChanger(key.color, key.id)}
-                                    style={{ backgroundColor: key.color }}>
-                                    <CardBody className="user-card-body-desc">
-                                        <CardTitle>
-                                        <InputBase
-                                            id="outlined-dense-multiline"
-                                            value={key.title}
-                                            onClick={() => this.handleToggleOpen(key.id, key.title, key.description)}
-                                            // className={clsx(classes.textField, classes.dense)}
-                                            margin="dense"
-                                            variant="outlined"
-                                            readOnly
-                                            multiline
-                                            style={{ backgroundColor: key.color }}
+                <div>
+                    <MuiThemeProvider theme={theme}>
+                        <Card className="Mainnotes"
+                            style={{ backgroundColor: key.color }}
+                            id={views}
+                        >
 
-                                        />
-                                    </CardTitle>
-                                    <InputBase
-                                        id="outlined-dense-multiline"
-                                        value={key.description}
-                                        onClick={() => this.handleToggleOpen(key.id, key.title, key.description)}
-                                        // className={clsx(classes.textField, classes.dense)}
-                                        margin="dense"
-                                        variant="outlined"
-                                        readOnly
-                                        multiline
-                                        style={{ backgroundColor: key.color }}
-                                    />
+                            <div>
 
-                                        {(key.reminder.length > 0) &&
-                                            <div>
-                                                <Chip
-                                                    // avatar={<Avatar alt="Natacha" src="/static/images/avatar/1.jpg" />}
-                                                    label={key.reminder.toString().substring(0, 24)}
-                                                    onDelete={() => this.handleDeleteChip(key.id)}
-                                                    className={useStyles.chip}
-                                                    variant="outlined"
-                                                    size="small"
-                                                />
-                                            </div>
-                                        }
-                                    </CardBody>
-                                    <CardBody >
-                                        <div className={modalbottom}>
-                                            <Reminder
-                                                toolsPropsToReminder={this.handleReminder}
-                                                noteID={key.id}
-                                                id="color-picker"
-                                            >
-                                            </Reminder>
+                                <InputBase className="noteiinput"
+                                    multiline
+                                    spellCheck={true}
+                                    onClick={() => this.handleToggleOpen(key.id, key.title, key.content)}
+                                    value={key.title}
+                                    readOnly
+                                    style={{ backgroundColor: key.color }}
 
-                                            <CardLink>
-                                            <CollaboratorComponent
-                                                noteID={key.id}
-                                                collaborators={key.collaborators}
-                                                removeCollaborator={this.removeCollaborator}
-                                                saveCollaborator={this.saveCollaborator}
-                                            // updatedCollaborator= {this.state.collaborator}
-                                            />
-                                        </CardLink>
-
-                                            <ColorPallete
-                                                toolsPropsToColorpallete={this.handleColorChanger}
-                                                noteID={key.id}
-                                                id="color-picker"
-                                            >
-                                            </ColorPallete>
-
-                                            <CardLink
-                                                onClick={() => this.props.handleArchive(key.id, true)}
-                                            >
-                                                <Tooltip title="Archive">
-                                                    <img className="img"
-                                                        src={require('../assets/img/archived.svg')}
-                                                        alt="color picker"
-                                                    />
-                                                </Tooltip>
-                                            </CardLink>
-                                            <CardLink className="add-image">
-                                                <Tooltip title="add image">
-                                                    <img className="img"
-                                                        src={require('../assets/img/add_image.svg')}
-                                                        alt="color picker"
-                                                    />
-                                                </Tooltip>
-                                            </CardLink>
-                                            <MoreOptions
-                                                toolsPropsToMoreOptions={this.handleDeleteNote}
-                                                noteID={key.id}
-                                                id="color-picker">
-                                            </MoreOptions>
-                                        </div>
-                                    </CardBody>
-                                </Card>
-                            </Container>
-                        {(this.state.noteId === key.id) &&
-                            <div key={key.id} >
-                                <Dialog
-                                    key={key.id}
-                                    open={this.state.modal}
-                                    onClose={this.handleClose}
-                                    aria-labelledby="responsive-dialog-title"
-                                    className="dialog-bottom-icons"
                                 >
+                                </InputBase>
+                                <InputBase className="noteiinput"
+                                    multiline
+                                    spellCheck={true}
+                                    onClick={() => this.handleToggleOpen(key.id, key.title, key.content)}
+                                    value={key.content}
+                                    readOnly
+                                    style={{ backgroundColor: key.color }}
+                                >
+                                </InputBase>
+                                <div className="IconBottom"
+                                    style={{ backgroundColor: key.color }}
+                                >
+                                    <div>
+                                        <Tooltip title="More">
+                                            <MoreOptions
+                                                PropsToDelete={this.handleDelete}
+                                                noteID={key.id}></MoreOptions>
+                                        </Tooltip>
+                                    </div>
+                                </div>
+                            </div>
 
-                                    <Card className="take-note-user-card-dialog"
-                                        onChange={() => this.handleColorChanger(key.color, key.id)}
-                                        style={{ backgroundColor: key.color }}>
-                                        <CardBody className="user-card-body-desc">
-                                            <CardTitle>
-                                            <InputBase
-                                                name="title"
-                                                value={this.state.title}
-                                                onChange={this.handleChange}
-                                                margin="dense"
-                                                variant="outlined"
-                                                multiline
-                                                style={{ backgroundColor: key.color }}
-                                                placeholder="Title"
-                                            />
-                                        </CardTitle>
-                                        <InputBase
-                                            name="description"
-                                            value={this.state.description}
-                                            onChange={this.handleChange}
-                                            margin="dense"
-                                            variant="outlined"
-                                            placeholder="Description"
-                                            multiline
-                                            style={{ backgroundColor: key.color }}
-                                        />
-                                            {(key.reminder.length > 0) &&
-                                                <div>
-                                                    <Chip
-                                                        // avatar={<Avatar alt="Natacha" src="/static/images/avatar/1.jpg" />}
-                                                        label={key.reminder.toString().substring(0, 24)}
-                                                        onDelete={() => this.handleDeleteChip(key.id)}
-                                                        className={useStyles.chip}
-                                                        variant="outlined"
-                                                        size="small"
-                                                    />
-                                                </div>
-                                            }
-                                        </CardBody>
-                                            <div
-                                                className="modal-footer-note"
-                                            >
-                                                <CardLink onClick={this.handleReminder}>
-                                                    <Reminder
-                                                        toolsPropsToReminder={this.handleReminder}
-                                                        noteID={key.id}
-                                                        id="color-picker"
-                                                    >
-                                                    </Reminder>
-                                                </CardLink>
+                        </Card>
+                    </MuiThemeProvider>
+                    {(key.id === this.state.noteId) ?
+                        <Dialog
+                            key={key.id}
+                            open={this.state.modal}
+                            onClose={this.handleClose}
+                            aria-labelledby="responsive-dialog-title"
+                            className="dialog-bottom-icons"
+                        >
 
-                                                <CardLink >
-                                                    <Tooltip title="Collaborator">
-                                                        <img className="img"
-                                                            src={require('../assets/img/colaborator.svg')}
-                                                            alt="color picker" />
-                                                    </Tooltip>
-                                                </CardLink>
+                            <Card className="notes card-desc" style={{ backgroundColor: this.state.color }} >
 
-                                                <ColorPallete
-                                                    toolsPropsToColorpallete={this.handleColorChanger}
-                                                    noteID={key.id}
-                                                    id="color-picker"
-                                                >
-                                                </ColorPallete>
 
-                                                <CardLink
-                                                    onClick={() => this.props.handleArchive(key.id, true)}>
-                                                    <Tooltip title="Archive">
-                                                        <img className="img"
-                                                            src={require('../assets/img/archived.svg')}
-                                                            alt="color picker" />
-                                                    </Tooltip>
-                                                </CardLink>
-                                                <CardLink>
-                                                    <Tooltip title="add image">
-                                                        <img className="img"
-                                                            src={require('../assets/img/add_image.svg')}
-                                                            alt="color picker"
-                                                        />
-                                                    </Tooltip>
-                                                </CardLink>
-                                                <MoreOptions
-                                                    // toolsPropsToColorpallete={this.handleMoreOptions}
-                                                    noteID={key.id}
-                                                    id="color-picker">
+                                <div>
+                                    <InputBase className="noteinput"
+                                        type="text"
 
-                                                </MoreOptions>
-                                                <CardLink ></CardLink>
-                                                <CardLink
-                                                    className="close-btn"
-                                                    onClick={this.handleToggleOpen}
-                                                >
-                                                    <Label>Close</Label>
-                                                </CardLink>
-                                            </div>
-                                    </Card>
-                                </Dialog>
-                            </div>}
-                            </MuiThemeProvider>
-                    </div>
+                                        multiline
+                                        spellCheck={true}
+                                        placeholder="Title"
+                                        value={this.state.title}
+                                        onChange={this.handleChangeEvent}
+                                        onfocus=" "
+                                        name="title"
+                                    >
+                                    </InputBase>
+                                </div>
+
+                                <div>
+
+                                    <InputBase className="noteinputcontent"
+                                        type="text"
+                                        multiline
+                                        spellCheck={true}
+                                        placeholder="Take a Note....."
+                                        value={this.state.content}
+                                        onChange={this.handleChangeEvent}
+                                        onfocus=" "
+                                        name="content">
+                                    </InputBase>
+                                </div>
+
+                                <div className="IconBottom">
+                                    <div>
+                                        <Tooltip title="More">
+                                            <MoreOptions
+                                                PropsToDelete={this.handleDelete}></MoreOptions>
+                                        </Tooltip>
+                                    </div>
+                                </div>
+                            </Card>
+
+                        </Dialog>
+                        :
+                        null
+                    }
+                </div>
             )
         })
         return (
-            <div className={listView}>
-                {allTrash}
+            <div>
+                <div className="allNotes">
+                    {notes}
+                </div>
             </div>
         )
     }
 }
-

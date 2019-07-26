@@ -4,6 +4,7 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
 import { userNotes } from '../services/noteService';
 import { withRouter } from 'react-router-dom'
 import ColorPallete from './colorPalette';
+import MoreOptions from './moreOptions';
 
 const theme = createMuiTheme({
     overrides: {
@@ -94,6 +95,8 @@ class CreateNote extends Component {
             is_pin: is_pin
         })
     }
+
+
     handleSubmit = () => {
         this.setState({
             openNote: !this.state.openNote,
@@ -183,7 +186,7 @@ class CreateNote extends Component {
 
                             <div className="IconBottom">
                                 <div>
-                                <Tooltip title="Archive"> 
+                                <Tooltip title="Reminder"> 
                                     <img src={require('../assets/images/reminderIcon.svg')}
                                         alt="reminder"
                                     />
@@ -219,9 +222,9 @@ class CreateNote extends Component {
                                
                                 <div>
                                 <Tooltip title="More"> 
-                                    <img src={require('../assets/images/moreOptionIcon.svg')}
-                                        alt="more Icons"
-                                    />
+                                <MoreOptions
+                                                PropsToDelete={this.handleDelete}
+                                                noteID=''></MoreOptions>
                                 </Tooltip>
                                 </div>
                                 <div>

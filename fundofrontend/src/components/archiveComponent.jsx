@@ -68,14 +68,14 @@ export default class ArchiveComponent extends Component {
 
     handleToggleOpen = (id, oldTitle, oldContent) => {
         // it checks for the previous state
-        this.setdeleteNoteState({
-            modadeleteNotel: !this.state.modal,
-            notedeleteNoteId: id,
-            titldeleteNotee: oldTitle,
-            contdeleteNoteent: oldContent
+        this.setState({
+            modal: !this.state.modal,
+            NoteId: id,
+            title: oldTitle,
+            content: oldContent
         });
-        console.deleteNotelog("id ......", id);
-        console.deleteNotelog("note id ......", this.state.noteId);
+        console.log("id ......", id);
+        console.log("note id ......", this.state.noteId);
     }
 
     handleClose = () => {

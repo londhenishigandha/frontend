@@ -78,16 +78,9 @@ export function setReminder(data){
   })
 }
 
-// export function archiveNote(data){
-//   return axios.put('http://127.0.0.1:8000/notes/', data,{
-//       headers: {
-//           "Authorization": localStorage.getItem("token")
-//       }
-//   })
-// }
 
-export function trash(data){
-  return axios.put('http://127.0.0.1:8000/notes/', data,{
+export function trash(){
+  return axios.get('http://127.0.0.1:8000/trash/',{
       headers: {
           "Authorization": localStorage.getItem("token")
       }
