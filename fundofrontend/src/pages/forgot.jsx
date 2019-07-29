@@ -3,8 +3,7 @@ import ForgotComponent from "../components/forgetPasswordComponent";
 class Forgot extends Component{
     render(){
         return (
-            <div className="container">
-                
+            <div className="container">  
               <ForgotComponent/>
             </div>
         );

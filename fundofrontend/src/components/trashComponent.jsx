@@ -47,6 +47,7 @@ export default class TrashComponent extends Component {
         }
     }
 
+    // it is excecuted after the first render
     componentDidMount() {
         this.getNotes();
     }
@@ -66,7 +67,7 @@ export default class TrashComponent extends Component {
 
     handleToggleOpen = (id, oldTitle, oldContent) => {
         // it checks for the previous state
-        this.setdeleteNoteState({
+        this.setState({
             modal: !this.state.modal,
             NoteId: id,
             title: oldTitle,

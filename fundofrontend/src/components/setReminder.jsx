@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
 import { MenuItem, Paper, Tooltip, ListItem, createMuiTheme, MuiThemeProvider, ClickAwayListener } from '@material-ui/core'
+import { updateNote } from '../services/noteService';
 const theme = createMuiTheme({
     overrides: {
         MuiMenuItem: {
@@ -27,7 +28,7 @@ const theme = createMuiTheme({
 })
 
 
-class Reminder extends Component {
+class SetReminder extends Component {
     state = {
         anchorEl: null,
         open: false,
@@ -53,46 +54,76 @@ class Reminder extends Component {
     }
     setTodayReminder =()=> {
         try{
-        this.handleClose();
-        let ampm = parseInt(new Date().getHours()) >= 8 ? "PM" : "AM";
-        var date = new Date().toDateString();
-        var reminder1 = date+ ", 8 "+ampm;
-        console.log("in reminder1==>",reminder1);
-        this.props.reminder(reminder1,this.props.noteID)
-        }catch(err){
-            console.log("error in set reminder for today");
+        var date = new Date()
+        var d = date.getDate()
+        var m = date.getMonth()+1
+        var y = date.getFullYear()
+        var hh= date.getHours();
+        var mm = date.getMinutes();
+        
+        console.log("Today",d,m,y);
+        
+        var todayReminder = y+"-"+m+"-"+d+"T8:00:00.000000Z"
+        console.log("date   ",todayReminder);
+        
+        console.log("Today",todayReminder);
+        var data = {
+                'reminder': todayReminder
         }
-    }
- 
-    setTomorrowReminder=()=>{
-        try{
-        this.handleClose();
-        let days=["Mon","Tue","Wed","Thu","Fri","Sat","Sun","Mon"]
-        var date = new Date().toDateString();
-        date=date.replace(new Date().getDate().toString(),new Date().getDate()+1);
-        date=date.replace(days[new Date().getDay()-1],days[new Date().getDay()]);
-        var reminder1= date+ ", 8 AM" ;
-        console.log("tommorow reminder==>",reminder1);
-        this.props.reminder(reminder1,this.props.noteID)
-        }
-        catch(err){
-            console.log("error in set reminder for tommorrow");
-        }
-    }
-    setWeeklyReminder=()=>{
-        try{
-        this.handleClose();
-       
-        var date = new Date().toDateString();
-        date=date.replace((new Date().getDate()),(new Date().getDate()+7));
-        var reminder1 = date+ ", 8 AM" ;
-        console.log("weekly reminder==>",reminder1);
-        this.props.reminder(reminder1,this.props.noteID)
+        console.log("id=================",this.props.noteID);
+        
+        updateNote(this.props.noteID, data)
+        .then(res => {
+            console.log("reminder response", res);
+            
+        })
+        .catch(err =>{
+            console.log("error in reminder", err);
+            
+        })
         }
         catch(err){
-            console.log("error in set reminder for next week");
+            console.log(err);
+            
         }
     }
+
+    setTomorrowReminder =()=> {
+        try{
+        var date = new Date()
+        var d = date.getDate()
+        var m = date.getMonth()+1
+        var y = date.getFullYear()
+        var hh= date.getHours();
+        var mm = date.getMinutes();
+        
+        console.log("Today",d,m,y);
+        
+        var todayReminder = y+"-"+m+"-"+(d+1)+"T8:00:00.000000Z"
+        console.log("date   ",todayReminder);
+        
+        console.log("Today",todayReminder);
+        var data = {
+                'reminder': todayReminder
+        }
+        console.log("id=================",this.props.noteID);
+        
+        updateNote(this.props.noteID, data)
+        .then(res => {
+            console.log("reminder response", res);
+            
+        })
+        .catch(err =>{
+            console.log("error in reminder", err);
+            
+        })
+        }
+        catch(err){
+            console.log(err);
+            
+        }
+    }
+
 
     render() {
         const setAMPM = this.props.parentToolsProps;
@@ -102,7 +133,7 @@ class Reminder extends Component {
             <MuiThemeProvider theme={theme}>
                 <div>
                     <Tooltip title="Remind me">
-                        <img src={require('../assests/images/reminder.svg')} 
+                    <img src={require('../assets/images/reminderIcon.svg')}
                         className="reminderIcon" 
                         onClick={this.handleClick('bottom-start')} alt="remider icon" />
                     </Tooltip>
@@ -114,10 +145,9 @@ class Reminder extends Component {
                                 <ClickAwayListener onClickAway={this.handleClose}>
 
                                     <div>
-
                                         <ListItem className="listRemindr" >Reminder:</ListItem>
                                         <MenuItem className="currentDate" onClick={()=>this.setTodayReminder(this.props.note)}>
-                                            <div>Later today</div>
+                                            <div>Today</div>
                                             <div>8:00 {setAMPM}</div>
                                         </MenuItem>
 
@@ -126,19 +156,6 @@ class Reminder extends Component {
                                             <div>8:00 AM</div>
                                         </MenuItem>
 
-                                        <MenuItem className="currentDate"  onClick={()=>this.setWeeklyReminder(this.props.note)}>
-                                            <div>Next Week</div>
-                                            <div>Mon, 8:00 AM</div>
-                                        </MenuItem>
-
-                                        <MenuItem className="currentDate">
-                                            <div>Home</div>
-                                            <div>Mumbai</div>
-
-                                        </MenuItem>
-
-                                       
-                                        <MenuItem >Pick place</MenuItem>
                                     </div>
                                     </ClickAwayListener>
                                 </Paper>
@@ -153,4 +170,4 @@ class Reminder extends Component {
         )
     }
 }
-export default Reminder;
+export default SetReminder;

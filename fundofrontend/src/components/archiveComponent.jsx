@@ -103,7 +103,6 @@ export default class ArchiveComponent extends Component {
                 .then(response => {
                     console.log("update note function", response);
                     this.getUpdateNotes();
-                    this.handleClickSnackbar("Note Updated successfully");
                     this.getNotes();
                 })
                 .catch(err => {
@@ -121,7 +120,7 @@ export default class ArchiveComponent extends Component {
 
         archiveNote(data)
             .then(response => {
-                console.log("Archive succcessfylly .....", response);
+                console.log("Archive successfully .....", response);
                 // to get the nodes
                 this.getNotes();
             })

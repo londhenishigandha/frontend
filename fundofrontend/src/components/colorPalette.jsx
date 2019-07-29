@@ -53,7 +53,7 @@ class ColorPallete extends Component {
                 <IconButton style={{ backgroundColor: colorKey.hexCode, "margin": "2px", }}
                     value={colorKey.hexCode}
                     onClick={this.handleColor}
-                    // onMouseOver={this.handleToggle}
+                   
                     >
                 </IconButton>
             </Tooltip>

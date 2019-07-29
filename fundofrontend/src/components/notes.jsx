@@ -1,18 +1,17 @@
-// import CreateNote from './createNote';
 import React, { Component } from 'react'
-import { getAllNotes, archiveNote } from '../services/noteService';
-import { updateNote, colorChange, deleteNote } from '../services/noteService';
+import { getAllNotes, archiveNote, removeremainder,setReminder } from '../services/noteService';
+import { updateNote,colorChange, deleteNote } from '../services/noteService';
 import { Card, InputBase, Dialog, Button, Tooltip } from '@material-ui/core';
 import ColorPallete from './colorPalette';
 import MoreOptions from '../components/moreOptions'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
-
+import SetReminder from '../components/setReminder'
 
 const theme = createMuiTheme({
     overrides: {
         MuiCard: {
             root: {
-                'width': "288px",
+                'width': "288px",   
                 "display": "flex",
                 "padding": "10px",
                 "overflow": "hidden",
@@ -44,16 +43,18 @@ export default class Notes extends Component {
             noteId: '',
             modal: false,
             isArchived: false,
-            color: "",
+            color: '',
             search: [],
         }
     }
 
+    // it executed after first render 
     componentDidMount() {
         this.getNotes();
     }
 
     getNotes() {
+        // get all notes which define in noteservices
         getAllNotes()
             .then(response => {
                 console.log("reponse", response.data);
@@ -67,7 +68,7 @@ export default class Notes extends Component {
     }
 
     handleToggleOpen = (id, oldTitle, oldContent) => {
-        // it checks for the previous state
+        // to set state
         this.setState({
             modal: !this.state.modal,
             noteId: id,
@@ -103,7 +104,6 @@ export default class Notes extends Component {
                 .then(response => {
                     console.log("update note function", response);
                     this.getUpdateNotes();
-                    this.handleClickSnackbar("Note Updated successfully");
                     this.getNotes();
                 })
                 .catch(err => {
@@ -117,8 +117,6 @@ export default class Notes extends Component {
             'id': noteId,
             'is_archive': true
         }
-
-
         archiveNote(data)
             .then(response => {
                 console.log("Archive succcessfylly .....", response);
@@ -126,7 +124,7 @@ export default class Notes extends Component {
                 this.getNotes();
             })
             .catch(err => {
-                console.log("Err0r", err);
+                console.log("Error", err);
             })
     }
 
@@ -143,23 +141,14 @@ export default class Notes extends Component {
         updateNote(noteId, data)
                 .then(response => {
                     console.log("update note function", response);
-                    // this.getUpdateNotes();
-                    this.handleClickSnackbar("Note Updated successfully");
+                    this.getUpdateNotes();
                     this.getNotes();
                 })
                 .catch(err => {
                     console.log("Eroorrrrrr....", err);
                 })
-        // deleteNote(data)
-        //     .then(response => {
-        //         console.log("Response from backend", response);
+     }
 
-
-        //     })
-        //     .catch(err => {
-        //         console.log("Error at color notes", err);
-        //     })
-    }
     handleDelete = (noteId) => {
         var data = {
             'id': noteId,
@@ -176,6 +165,40 @@ export default class Notes extends Component {
                 console.log("Error in delete notes", err);
 
             })
+           
+    
+    }
+    handlereminder = (reminderdate, noteId) => {
+        this.setState({
+            reminder: reminderdate,
+        })
+        console.log("remainder ==> ", this.state.reminder);
+        var data = {
+            'id': [noteId],
+            'reminder': reminderdate,
+
+        }
+
+        setReminder(data)
+            .then(response => {
+                console.log("reminder response", response)
+
+            })
+            .catch(err => {
+                console.log(err);
+
+            })
+
+
+    }
+    handleDeleteReminder = (noteId) => {
+        var data = {
+            'noteIdList': [noteId],
+            'reminder':""
+        }
+        
+
+
     }
 
     render() {
@@ -210,14 +233,19 @@ export default class Notes extends Component {
                                     style={{ backgroundColor: key.color }}
                                 >
                                 </InputBase>
+                                <div>
+                                    {key.reminder}
+                                </div>
                                 <div className="IconBottom"
                                     style={{ backgroundColor: key.color }}
                                 >
                                     <div>
                                         <Tooltip title="reminder">
-                                            <img src={require('../assets/images/reminderIcon.svg')}
-                                                alt="reminder"
-                                            />
+                                        <SetReminder
+                                            toolsPropsToReminder={this.handlereminder}
+                                            noteID={key.id}>
+                                        </SetReminder>
+
                                         </Tooltip>
                                     </div>
                                     <div>
@@ -229,7 +257,7 @@ export default class Notes extends Component {
                                     </div>
                                     <div>
                                     <Tooltip title="Change color">
-                                        <ColorPallete
+                                        <ColorPallete className="color"
                                             toolsPropsToColorpallete={this.handleColor}
                                             noteID={key.id}
                                         ></ColorPallete>
@@ -284,7 +312,6 @@ export default class Notes extends Component {
                                 <div>
                                     <InputBase className="noteinput"
                                         type="text"
-
                                         multiline
                                         spellCheck={true}
                                         placeholder="Title"
@@ -295,7 +322,7 @@ export default class Notes extends Component {
                                     >
                                     </InputBase>
                                 </div>
-
+                        
                                 <div>
 
                                     <InputBase className="noteinputcontent"
@@ -308,7 +335,7 @@ export default class Notes extends Component {
                                         onfocus=" "
                                         name="content">
                                     </InputBase>
-                                {/* </div> */}
+                               
                                 <div className="IconBottom"
                                 >
                                     <div>

@@ -70,8 +70,8 @@ export function deleteNote(data) {
   
 }
 
-export function setReminder(data){
-  return axios.put('http://127.0.0.1:8000/notes/', data,{
+export function setReminder(data, id){
+  return axios.put(`http://127.0.0.1:8000/reminder/${id}/`, data,{
       headers: {
           "Authorization": localStorage.getItem("token")
       }

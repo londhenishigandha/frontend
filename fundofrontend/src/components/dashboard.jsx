@@ -53,7 +53,6 @@ class DashboardComponent extends Component {
       listview:false,
       searchNote:""
     }
-
   }
 
   handleToggle = () => {

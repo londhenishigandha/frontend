@@ -198,6 +198,8 @@ export default class Reminder extends Component {
                                     style={{ backgroundColor: key.color }}
                                 >
                                 </InputBase>
+                                
+
                                 <div className="IconBottom"
                                     style={{ backgroundColor: key.color }}
                                 >

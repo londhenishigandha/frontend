@@ -4,6 +4,7 @@ import DashboardComponent from "../components/dashboard";
 import CreateNote from "../components/createNote";
 import Notes from '../components/notes'
 // import createNote from "../components/createNote";
+import Reminder from '../components/reminderComponent'
 
 class Dashboard extends Component {
   constructor(props) {

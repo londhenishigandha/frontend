@@ -5,6 +5,7 @@ import { userNotes } from '../services/noteService';
 import { withRouter } from 'react-router-dom'
 import ColorPallete from './colorPalette';
 import MoreOptions from './moreOptions';
+import Reminder from './reminderComponent'
 
 const theme = createMuiTheme({
     overrides: {
@@ -84,15 +85,15 @@ class CreateNote extends Component {
     }
 
     handleArchive(value) {
-        const is_archieve = event.target.value;
+        // const is_archieve = event.target.value;
         this.setState({
-            is_archieve: is_archieve
+            is_archieve: value
         })
     }
     handlePin(value) {
-        const is_pin = event.target.value;
+        // const is_pin = event.target.value;
         this.setState({
-            is_pin: is_pin
+            is_pin: value
         })
     }
 

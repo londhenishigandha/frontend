@@ -23,6 +23,9 @@ class MoreOptions extends Component {
             console.log("error in handle delete event", err);
         }
     }
+    handleAddLabel() {
+        this.setState({ addLabel: !this.state.addLabel });
+    }
 
     render() {
         return (
