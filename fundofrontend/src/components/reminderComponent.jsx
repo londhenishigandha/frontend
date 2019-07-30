@@ -126,7 +126,7 @@ export default class Reminder extends Component {
                 this.getNotes();
             })
             .catch(err => {
-                console.log("Err0r", err);
+                console.log("Error", err);
             })
     }
 
@@ -176,9 +176,7 @@ export default class Reminder extends Component {
                             style={{ backgroundColor: key.color }}
                             id={views}
                         >
-
                             <div>
-
                                 <InputBase className="noteiinput"
                                     multiline
                                     spellCheck={true}

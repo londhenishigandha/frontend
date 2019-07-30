@@ -6,6 +6,8 @@ import { withRouter } from 'react-router-dom'
 import ColorPallete from './colorPalette';
 import MoreOptions from './moreOptions';
 import Reminder from './reminderComponent'
+import SetReminder from '../components/setReminder'
+
 
 const theme = createMuiTheme({
     overrides: {
@@ -15,7 +17,6 @@ const theme = createMuiTheme({
                 width: "350px",
                 "margin-top": "76px",
                 "line-height": "58px",
-                // "margin-left": "477px",
                 "border-radius": "12px",
                 padding: "10px"
             }
@@ -24,7 +25,7 @@ const theme = createMuiTheme({
     }
 })
 
-
+// class to create note
 class CreateNote extends Component {
     constructor(props) {
         super(props);
@@ -39,10 +40,12 @@ class CreateNote extends Component {
             is_trash: "",
             is_archieve: "",
             is_pin: "",
-            color:''
+            color:'',
+            reminder :''
         }
-
+        // To bind
         this.handleColor = this.handleColor.bind(this);
+        this.handlereminder = this.handlereminder.bind(this);
     }
     handleNotes = () => {
         this.setState({
@@ -51,6 +54,7 @@ class CreateNote extends Component {
             title: '',
         })
     }
+
     handleNotesClose = () => {
         this.setState({
             openNote: false
@@ -76,7 +80,7 @@ class CreateNote extends Component {
         })
     }
     handleColor(value) {
-        // const color = event.target.value;
+       
         console.log("color", value);
         
         this.setState({
@@ -84,8 +88,17 @@ class CreateNote extends Component {
         })
     }
 
+    handlereminder(value) {
+      
+        console.log("reminder set", value);
+        this.setState({
+            reminder: value
+        })
+    }
+
+    // for archive
     handleArchive(value) {
-        // const is_archieve = event.target.value;
+     
         this.setState({
             is_archieve: value
         })
@@ -97,7 +110,7 @@ class CreateNote extends Component {
         })
     }
 
-
+    // To submit
     handleSubmit = () => {
         this.setState({
             openNote: !this.state.openNote,
@@ -107,10 +120,12 @@ class CreateNote extends Component {
         var data = {
             'content': this.state.content,
             'title': this.state.title,
-            'color': this.state.color
+            'color': this.state.color,
+            'reminder':this.state.reminder
         }
         console.log('data in note create ==>', data);
 
+        // user notes from user services will check 
         userNotes(data)
             .then(response => {
                 console.log('data in note create @@@@@@@==>', data);
@@ -156,6 +171,7 @@ class CreateNote extends Component {
 
                         <div className="Notemainnn">
                             <div>
+                                {/* For Title */}
                                 <InputBase className="noteinput"
                                     type="text"
 
@@ -171,7 +187,7 @@ class CreateNote extends Component {
                             </div>
 
                             <div>
-
+                                {/* For Content */}
                                 <InputBase className="noteinputcontent"
                                     type="text"
 
@@ -184,15 +200,22 @@ class CreateNote extends Component {
                                     name="content">
                                 </InputBase>
                             </div>
-
+                            <div>
+                                {this.state.reminder}
+                            </div>
                             <div className="IconBottom">
-                                <div>
-                                <Tooltip title="Reminder"> 
-                                    <img src={require('../assets/images/reminderIcon.svg')}
-                                        alt="reminder"
-                                    />
-                                </Tooltip>
-                                </div>
+                            <div>
+                                        {/* To set reminder */}
+                                        <Tooltip title="reminder">
+                                        <SetReminder
+                                            toolsPropsToReminder={this.handlereminder}
+                                            noteID = ''
+                                            >
+                                        </SetReminder>
+
+                                        </Tooltip>
+                                    </div>  
+                                    {/* To set collaborator  */}
                                 <div>
                                 <Tooltip title="Collaborator"> 
                                     <img src={require('../assets/images/collaboratorIcon.svg')}
@@ -200,12 +223,15 @@ class CreateNote extends Component {
                                     />
                                 </Tooltip>
                                 </div>
+                                {/* To set or change the color of notes */}
                                 <div>
                                <ColorPallete 
                                  toolsPropsToColorpallete={this.handleColor}
                                  noteID = ''
                                />
-                                </div>
+                                </div
+                                >
+                                {/* To archive the notes */}
                                 <div>
                                 <Tooltip title="Archive"> 
                                     <img src={require('../assets/images/archieve.svg')}
@@ -213,6 +239,7 @@ class CreateNote extends Component {
                                     />
                                 </Tooltip>
                                 </div>
+                                {/* To add image */}
                                 <div>
                                 <Tooltip title="Add image"> 
                                     <img src={require('../assets/images/addImageIcon.svg')}
@@ -220,7 +247,7 @@ class CreateNote extends Component {
                                     />
                                 </Tooltip>
                                 </div>
-                               
+                               {/* for more options */}
                                 <div>
                                 <Tooltip title="More"> 
                                 <MoreOptions
@@ -229,6 +256,7 @@ class CreateNote extends Component {
                                 </Tooltip>
                                 </div>
                                 <div>
+                                    {/* To close */}
                                 <Tooltip title="Close"> 
                                     <Button onClick={this.handleSubmit}><b>Close</b></Button>
                                 </Tooltip>

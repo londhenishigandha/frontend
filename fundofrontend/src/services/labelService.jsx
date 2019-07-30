@@ -24,3 +24,12 @@ export function deleteLabel(labelId) {
 
     })
 }
+
+export function updateLabel(data, labelId) {
+    return axios.put(`http://127.0.0.1:8000/labels/${labelId}/`,data,  {
+        headers: {
+            "Authorization": localStorage.getItem("token")
+        }
+
+    })
+}

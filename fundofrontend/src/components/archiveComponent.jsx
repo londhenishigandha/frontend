@@ -25,7 +25,7 @@ const theme = createMuiTheme({
     }
 })
 
-
+// for searching the notes by title or content
 function searchingFor(search) {
     return function (x) {
         return x.title.includes(search) || x.content.includes(search)
@@ -54,9 +54,11 @@ export default class ArchiveComponent extends Component {
     }
 
     getNotes() {
+        // get notes
         getAllNotes()
             .then(response => {
                 console.log("reponse", response.data);
+                // to set state
                 this.setState({
                     allNotes: response.data
                 })
@@ -67,7 +69,6 @@ export default class ArchiveComponent extends Component {
     }
 
     handleToggleOpen = (id, oldTitle, oldContent) => {
-        // it checks for the previous state
         this.setState({
             modal: !this.state.modal,
             NoteId: id,
@@ -78,16 +79,19 @@ export default class ArchiveComponent extends Component {
         console.log("note id ......", this.state.noteId);
     }
 
+
     handleClose = () => {
         this.setState({
             modal: false
         })
     }
 
+    //To handle change event
     handleChangeEvent = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
 
+    // submit the data 
     handleSubmit = () => {
         this.setState(prevState => ({
             modal: !prevState.modal,
@@ -117,7 +121,7 @@ export default class ArchiveComponent extends Component {
             'is_archive': true
         }
 
-
+        // call from user service
         archiveNote(data)
             .then(response => {
                 console.log("Archive successfully .....", response);
@@ -152,6 +156,8 @@ export default class ArchiveComponent extends Component {
         //         console.log("Error at color notes", err);
         //     })
     }
+
+    // for delete
     handleDelete = (noteId) => {
         var data = {
             'id': noteId,
@@ -174,8 +180,10 @@ export default class ArchiveComponent extends Component {
 
     render() {
         const views = this.props.view ? "list" : null
+        // used for mapping 
         const notes = this.state.allNotes.map(key => {
             return (
+                // it will check key is archive or not
             (key.is_archive === true)&&
                 <div>
                     <MuiThemeProvider theme={theme}>
@@ -262,6 +270,7 @@ export default class ArchiveComponent extends Component {
 
                         </Card>
                     </MuiThemeProvider>
+                    
                     {(key.id === this.state.noteId) ?
                         <Dialog
                             key={key.id}

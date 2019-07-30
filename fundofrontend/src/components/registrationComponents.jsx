@@ -161,23 +161,12 @@ class RegistrationComponent extends Component {
                             onClick={this.loginClick}
                         > <b>Log in </b>
                         </Button>
-
-                        
-
-
                     </div>
-
-
                 </Card>
-
-
-
             </div>
         );
     }
 }
-
-
 
 export default withRouter(RegistrationComponent);
 

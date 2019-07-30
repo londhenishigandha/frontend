@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { InputBase, Dialog, Tooltip } from '@material-ui/core';
-import { Check } from "@material-ui/icons/Check";
-import { Close } from "@material-ui/icons/Close";
 import { createLabel } from '../services/labelService';
 import GetLabel from './getLabel';
 
@@ -22,20 +20,24 @@ class CreateLabel extends Component {
     }
 
     handleClose = () => {
+        // to set state
         this.setState({
             open:false
         })
     }
     handleChange = (e) => {
+        // to set state
         this.setState({
             [e.target.name]:e.target.value
         })
     }
 
+    // to handle create label
     handleCreateLabel = () => {
         var data = {
             'label':this.state.label
         }
+        // call create label from labelServices
         createLabel(data)
         .then(res => {
             console.log(res);
@@ -47,10 +49,11 @@ class CreateLabel extends Component {
     render() {
         return (
             <div>
+                {/* for edit label */}
                 <div onClick={this.handleClickOpen} style={{ cursor: 'pointer' }}>
                 <img src={require('../assets/images/menuEdit.svg')} alt="edit icon"
                       />
-                    Edit Labels
+                    Add Labels 
                 </div>
                 <Dialog
                     open={this.state.open}

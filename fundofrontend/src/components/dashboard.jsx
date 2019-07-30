@@ -43,6 +43,7 @@ const thm = createMuiTheme({
     }
   }
 });
+// class for dashboard
 class DashboardComponent extends Component {
 
   constructor(props) {
@@ -50,7 +51,7 @@ class DashboardComponent extends Component {
     this.state = {
       open: false,
       anchorEl: null,
-      listview:false,
+      listview:false, 
       searchNote:""
     }
   }
@@ -59,6 +60,7 @@ class DashboardComponent extends Component {
     this.setState({ open: !this.state.open });
   }
 
+  // for logout
   Logout = (e) => {
     console.log("logout", this.props.drop);
 
@@ -84,11 +86,13 @@ class DashboardComponent extends Component {
     });
   };
 
+  // To search
   SearchHandle=(evt)=>{
     this.setState({ searchNote: evt.target.value })
     this.props.getSearchNote(evt.target.value)
   }
 
+  // To refresh
   handleRefresh = (event) => {
     window.location.reload();
     this.props.reloadprops(event.target.value)
@@ -101,6 +105,7 @@ class DashboardComponent extends Component {
   }
 
   render() {
+    // anchorEl returns the DOM element,
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
 

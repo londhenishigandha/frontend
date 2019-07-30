@@ -23,6 +23,7 @@ class UploadImage extends Component {
     }
     render() {
         return (
+            // GROUP INLINE ELEMENT
             <span>
             <Tooltip title="Upload Image"> 
                 <img src={require('../assests/images/addImageIcon.svg')}

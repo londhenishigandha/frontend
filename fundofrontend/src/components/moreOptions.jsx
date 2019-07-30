@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Popper, Paper, MenuItem, ClickAwayListener } from '@material-ui/core';
 import PopupState, { bindToggle, bindPopper } from 'material-ui-popup-state';
+import CreateLabel from './createLabel';
 
 class MoreOptions extends Component {
     constructor() {
@@ -27,6 +28,12 @@ class MoreOptions extends Component {
         this.setState({ addLabel: !this.state.addLabel });
     }
 
+    handleClickAway =() => {
+        this.setState({
+            open: false
+        })
+    }
+
     render() {
         return (
             <PopupState variant="popper" >
@@ -38,7 +45,8 @@ class MoreOptions extends Component {
                                 alt="more options icon" />
 
                         </div>
-                        <ClickAwayListener>
+                        <ClickAwayListener onClickAway={this.handleClickAway}>
+                            {/* to control a popper component */}
                             <Popper {...bindPopper(popupState)} transition >
 
 
@@ -47,7 +55,10 @@ class MoreOptions extends Component {
                                         !this.state.addLabel ?
                                             <div>
                                                 <MenuItem onClick={this.handleDelete}>Delete Note</MenuItem>
-                                                 <MenuItem onClick={Option}>Add Label</MenuItem>
+                                                 {/* <MenuItem onClick={this.handleAddLabel}>Add Label</MenuItem> */}
+                                                 <div>
+                        <CreateLabel />
+                    </div>
                                             </div>
                                             :
                                             <div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getAllNotes, archiveNote, removeremainder,setReminder } from '../services/noteService';
+import { getAllNotes, archiveNote,setReminder } from '../services/noteService';
 import { updateNote,colorChange, deleteNote } from '../services/noteService';
 import { Card, InputBase, Dialog, Button, Tooltip } from '@material-ui/core';
 import ColorPallete from './colorPalette';
@@ -127,7 +127,7 @@ export default class Notes extends Component {
                 console.log("Error", err);
             })
     }
-
+    // For color
     handleColor = (value , noteId ) => {
         console.log("Value in handlecolor", value);
 
@@ -138,6 +138,7 @@ export default class Notes extends Component {
         var data = {
             'color': value
         }
+        // update the note 
         updateNote(noteId, data)
                 .then(response => {
                     console.log("update note function", response);
@@ -155,6 +156,7 @@ export default class Notes extends Component {
             'is_deleted': true
 
         }
+        // delete note
         deleteNote(noteId)
             .then(response => {
                 console.log("Response from backend: ", response);
@@ -178,7 +180,7 @@ export default class Notes extends Component {
             'reminder': reminderdate,
 
         }
-
+        // To set reminder
         setReminder(data)
             .then(response => {
                 console.log("reminder response", response)
@@ -196,9 +198,6 @@ export default class Notes extends Component {
             'noteIdList': [noteId],
             'reminder':""
         }
-        
-
-
     }
 
     render() {
@@ -302,8 +301,7 @@ export default class Notes extends Component {
                             key={key.id}
                             open={this.state.modal}
                             onClose={this.handleClose}
-                            aria-labelledby="responsive-dialog-title"
-                            className="dialog-bottom-icons"
+                            
                         >
 
                             <Card className="notes card-desc" style={{ backgroundColor: this.state.color }} >

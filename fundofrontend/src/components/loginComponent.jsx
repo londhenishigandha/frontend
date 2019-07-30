@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 
 class LoginComponent extends Component {
     constructor(props) {
-        //This will initiate the parent's constructor method and alowsw the component to inherit the method from Reacr.Component
+        //This will initiate the parent's constructor method and allow the component to inherit the method from Reacr.Component
         super(props);
         this.state = {
             userName: "",

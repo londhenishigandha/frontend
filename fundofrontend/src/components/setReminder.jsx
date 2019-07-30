@@ -53,7 +53,7 @@ class SetReminder extends Component {
         this.setState(state=>({open:!state.open}))
     }
     setTodayReminder =()=> {
-        try{
+        // try{
         var date = new Date()
         var d = date.getDate()
         var m = date.getMonth()+1
@@ -71,25 +71,26 @@ class SetReminder extends Component {
                 'reminder': todayReminder
         }
         console.log("id=================",this.props.noteID);
-        
-        updateNote(this.props.noteID, data)
-        .then(res => {
-            console.log("reminder response", res);
+        this.props.toolsPropsToReminder(todayReminder, this.props.noteID);
+
+        // updateNote(this.props.noteID, data)
+        // .then(res => {
+        //     console.log("reminder response", res);
             
-        })
-        .catch(err =>{
-            console.log("error in reminder", err);
+        // })
+        // .catch(err =>{
+        //     console.log("error in reminder", err);
             
-        })
-        }
-        catch(err){
-            console.log(err);
+        // })
+        // }
+        // catch(err){
+        //     console.log(err);
             
-        }
+        // }
     }
 
     setTomorrowReminder =()=> {
-        try{
+        
         var date = new Date()
         var d = date.getDate()
         var m = date.getMonth()+1
@@ -99,29 +100,29 @@ class SetReminder extends Component {
         
         console.log("Today",d,m,y);
         
-        var todayReminder = y+"-"+m+"-"+(d+1)+"T8:00:00.000000Z"
-        console.log("date   ",todayReminder);
+        var tomorrowReminder = y+"-"+m+"-"+(d+1)+"T8:00:00.000000Z"
+        console.log("date   ",tomorrowReminder);
         
-        console.log("Today",todayReminder);
+        console.log("Today",tomorrowReminder);
         var data = {
-                'reminder': todayReminder
+                'reminder': tomorrowReminder
         }
         console.log("id=================",this.props.noteID);
-        
-        updateNote(this.props.noteID, data)
-        .then(res => {
-            console.log("reminder response", res);
+        this.props.toolsPropsToReminder(tomorrowReminder, this.props.noteID);
+        // updateNote(this.props.noteID, data)
+        // .then(res => {
+        //     console.log("reminder response", res);
             
-        })
-        .catch(err =>{
-            console.log("error in reminder", err);
+        // })
+        // .catch(err =>{
+        //     console.log("error in reminder", err);
             
-        })
-        }
-        catch(err){
-            console.log(err);
+        // })
+        // }
+        // catch(err){
+        //     console.log(err);
             
-        }
+        // }
     }
 
 
