@@ -8,6 +8,7 @@ export function createLabel(data) {
     })
 }
 
+
 export function getAllLabel() {
     return axios.get(`http://127.0.0.1:8000/label/`,  {
         headers: {
@@ -27,6 +28,14 @@ export function deleteLabel(labelId) {
 
 export function updateLabel(data, labelId) {
     return axios.put(`http://127.0.0.1:8000/labels/${labelId}/`,data,  {
+        headers: {
+            "Authorization": localStorage.getItem("token")
+        }
+
+    })
+}
+export function addLabelToNotes(data) {
+    return axios.put(`http://127.0.0.1:8000/notesview/${data.noteId}/`,data.data,  {
         headers: {
             "Authorization": localStorage.getItem("token")
         }

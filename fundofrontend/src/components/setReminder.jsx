@@ -53,7 +53,6 @@ class SetReminder extends Component {
         this.setState(state=>({open:!state.open}))
     }
     setTodayReminder =()=> {
-        // try{
         var date = new Date()
         var d = date.getDate()
         var m = date.getMonth()+1
@@ -73,20 +72,6 @@ class SetReminder extends Component {
         console.log("id=================",this.props.noteID);
         this.props.toolsPropsToReminder(todayReminder, this.props.noteID);
 
-        // updateNote(this.props.noteID, data)
-        // .then(res => {
-        //     console.log("reminder response", res);
-            
-        // })
-        // .catch(err =>{
-        //     console.log("error in reminder", err);
-            
-        // })
-        // }
-        // catch(err){
-        //     console.log(err);
-            
-        // }
     }
 
     setTomorrowReminder =()=> {
@@ -99,8 +84,10 @@ class SetReminder extends Component {
         var mm = date.getMinutes();
         
         console.log("Today",d,m,y);
-        
-        var tomorrowReminder = y+"-"+m+"-"+(d+1)+"T8:00:00.000000Z"
+        d=31 % d
+        if (d = 1)
+            m=m+1
+        var tomorrowReminder = y+"-"+m+"-"+(d)+"T8:00:00.000000Z"
         console.log("date   ",tomorrowReminder);
         
         console.log("Today",tomorrowReminder);
@@ -109,20 +96,7 @@ class SetReminder extends Component {
         }
         console.log("id=================",this.props.noteID);
         this.props.toolsPropsToReminder(tomorrowReminder, this.props.noteID);
-        // updateNote(this.props.noteID, data)
-        // .then(res => {
-        //     console.log("reminder response", res);
-            
-        // })
-        // .catch(err =>{
-        //     console.log("error in reminder", err);
-            
-        // })
-        // }
-        // catch(err){
-        //     console.log(err);
-            
-        // }
+        
     }
 
 

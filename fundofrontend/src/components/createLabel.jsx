@@ -53,7 +53,7 @@ class CreateLabel extends Component {
                 <div onClick={this.handleClickOpen} style={{ cursor: 'pointer' }}>
                 <img src={require('../assets/images/menuEdit.svg')} alt="edit icon"
                       />
-                    Add Labels 
+                    Edit Labels 
                 </div>
                 <Dialog
                     open={this.state.open}

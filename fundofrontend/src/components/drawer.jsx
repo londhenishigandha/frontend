@@ -70,7 +70,7 @@ class DrawerMenu extends Component {
                             LABELS
                     </div>
 
-                        <div>
+                        {/* <div>
                         <MenuItem id="labelMenu" onClick={this.handleLabelOpen}>
                                 <img src={require('../assets/images/label.svg')} alt="label icon"
                                     style={{ marginRight: "40px" }} />
@@ -84,12 +84,12 @@ class DrawerMenu extends Component {
                                     style={{ marginRight: "40px" }} />
                                 label2
                           </MenuItem>
-                        </div>
+                        </div> */}
 
 
                         <div>
                             <MenuItem >
-                                <CreateLabel/>
+                                <CreateLabel />
                             </MenuItem>
                         </div>
 

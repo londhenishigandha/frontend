@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { getAllLabel, deleteLabel, updateLabel } from '../services/labelService';
-import { InputBase } from '@material-ui/core';
+import { getAllLabel, deleteLabel, updateLabel, addLabelToNotes } from '../services/labelService';
+import { InputBase, Checkbox, FormControlLabel } from '@material-ui/core';
 
 export default class GetLabel extends Component {
     constructor(props) {
@@ -40,7 +40,7 @@ export default class GetLabel extends Component {
         this.setState({
             editLabel: true,
             labelId: labelId,
-            label:label
+            label: label
         })
     }
 
@@ -52,24 +52,87 @@ export default class GetLabel extends Component {
 
     handleUpdateLabels = (labelId) => {
         var data = {
-            'label':this.state.label
+            'label': this.state.label
         }
 
         console.log(data);
-        
-        updateLabel(data,labelId)
-        .then(res => {
-            console.log("updated successfully", res);
-        })
-        .catch(err => {
-            console.log("error in update label", err);
-            
-        })
+
+        updateLabel(data, labelId)
+            .then(res => {
+                console.log("updated successfully", res);
+            })
+            .catch(err => {
+                console.log("error in update label", err);
+
+            })
+    }
+
+    handleChange = (e, labelId) => {
+        let isChecked = e.target.checked;
+        let checkedValue = e.target.value
+        // do whatever you want with isChecked value
+        console.log("checkbox value", isChecked, labelId, checkedValue);
+
+        if (isChecked) {
+            var addData = {
+                'noteId': this.props.noteID,
+                data:{
+                'id': [labelId]
+            }
+            }
+            addLabelToNotes(addData)
+                .then(() => {
+                    // this.props.getAllLabelsToCreateLabels(isChecked);
+                    console.log("updated successfully");
+
+                })
+                .catch((err) => {
+                    console.log("error in addlabeltonote", err);
+                })
+        }
+        // if (!isChecked) {
+        //     var removeData = {
+        //         'noteId': this.props.noteId,
+        //         'labelId': labelId
+        //     }
+        //     NoteServices.removeLabelToNotes(removeData)
+        //         .then(() => {
+        //             this.props.getAllLabelsToCreateLabels(isChecked);
+        //         })
+        //         .catch((err) => {
+        //             console.log("error in addlabeltonote", err);
+        //         })
+        // }
     }
     render() {
+        const labelList = this.state.allLabels.map(labels => {
+
+            return (
+                <div key={labels.id} style={{ marginLeft: "5%" }}>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                onChange={(e) => this.handleChange(e, labels.id)}
+                                                value={labels.label}
+                                                color="primary"
+                                                style={{ padding: "0" }}
+                                                size="small"
+                                                // {this.state.isChecked.map(checked => {}) }
+                                                // checked={}
+                                            />
+                                        }
+                                        label={labels.label}
+                                    />
+                                </div>
+                )
+        })
+
+
         const allLabels = this.state.allLabels.map(labels => {
             return (
                 <div style={{ display: "flex" }}>
+
+
                     {!this.state.mouseOver ?
                         <div>
                             <img src={require('../assets/images/label.svg')}
@@ -95,44 +158,49 @@ export default class GetLabel extends Component {
                             </div>
                     }
                     <div>
-                       
-                            {/* <InputBase
+
+                        {/* <InputBase
                         value = {labels.label}
                         readOnly
                         onClick={() => this.handleEditLabel(labels.id, labels.label)}
                         /> */}
-                            <div>
-                                {(labels.id === this.state.labelId) ?
-                                    <div>
+                        <div>
+                            {(labels.id === this.state.labelId) ?
+                                <div>
                                     <InputBase
                                         value={this.state.label}
                                         onChange={this.handleEditLabelChange}
                                         name="label"
-                                        // onClick={() => this.handleEditLabel(labels.id)}
+                                    // onClick={() => this.handleEditLabel(labels.id)}
                                     />
 
                                     <img src={require('../assets/images/menuEdit.svg')}
                                         alt="edit label"
                                         onClick={() => this.handleUpdateLabels(labels.id)}
                                     />
-                                    </div>
+                                </div>
 
-                                    :
-                                    <InputBase
-                                        value={labels.label}
-                                        readOnly
-                                        onClick={() => this.handleEditLabel(labels.id, labels.label)}
-                                    />
-                                }
-                            </div>
+                                :
+                                <InputBase
+                                    value={labels.label}
+                                    readOnly
+                                    onClick={() => this.handleEditLabel(labels.id, labels.label)}
+                                />
+                            }
                         </div>
                     </div>
-                    )
-                })
-                return (
+                </div>
+            )
+        })
+        return (
+            this.props.createLabelNote ?
             <div>
-                        {allLabels}
-                    </div>
-                    )
-                }
-            }
+                {labelList}
+            </div>
+            :
+            <div>
+                {allLabels}
+            </div>
+        )
+    }
+}

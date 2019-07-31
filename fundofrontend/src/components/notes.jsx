@@ -170,18 +170,20 @@ export default class Notes extends Component {
            
     
     }
+
     handlereminder = (reminderdate, noteId) => {
+        alert(reminderdate)
         this.setState({
             reminder: reminderdate,
         })
         console.log("remainder ==> ", this.state.reminder);
         var data = {
-            'id': [noteId],
+            'id': noteId,
             'reminder': reminderdate,
 
         }
         // To set reminder
-        setReminder(data)
+        setReminder(data, noteId)
             .then(response => {
                 console.log("reminder response", response)
 

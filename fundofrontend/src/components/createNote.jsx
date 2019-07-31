@@ -14,7 +14,7 @@ const theme = createMuiTheme({
         MuiCard: {
             root: {
                 display: "flex",
-                width: "350px",
+                width: "288px",
                 "margin-top": "76px",
                 "line-height": "58px",
                 "border-radius": "12px",

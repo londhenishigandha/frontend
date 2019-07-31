@@ -55,6 +55,9 @@ class LoginComponent extends Component {
     forgotClick = () => {
         this.props.history.push('forgot')
     }
+    registerClick = () => {
+        this.props.history.push('registration')
+    }
     //is the method that actual outputs HTML to the DOM.
     render() {
         return (
@@ -94,10 +97,15 @@ class LoginComponent extends Component {
                 <div className="bt">
 
                     <Button id="Button" onClick={this.handleSubmit}>Log in</Button>
-
-                    <Button id="Reg_Button" onClick={this.forgotClick}><b>Forget password</b>
+                    </div>
+                    <div> 
+                    <Button id="forgot_Button" onClick={this.forgotClick}><b>Forget password</b>
                     </Button>
-                </div>
+                   
+                    <Button id="Reg_Button" onClick={this.registerClick}><b>Register</b>
+                    </Button>
+                    </div>
+                
                 <br></br>
 
 

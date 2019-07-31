@@ -55,7 +55,10 @@
 }
 .bt{
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 45%;
+  margin-left: 22%;
 }
 .pass {
   display: flex;
