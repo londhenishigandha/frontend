@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Drawer } from '@material-ui/core';
 import { MenuItem } from '@material-ui/core';
 import CreateLabel from './createLabel';
+import GetLabel from './getLabel';
 
 
 class DrawerMenu extends Component {
@@ -11,7 +12,8 @@ class DrawerMenu extends Component {
 
         this.state = {
             open: false,
-            trash: ""
+            trash: "",
+            alllabels:[]
 
         }
     }
@@ -43,6 +45,7 @@ class DrawerMenu extends Component {
 
     render() {
         return (
+
             <div>
                 <Drawer
                     variant="persistent"
@@ -86,7 +89,12 @@ class DrawerMenu extends Component {
                           </MenuItem>
                         </div> */}
 
-
+                            <div style={{ marginRight: "40px" }}>
+                            <GetLabel 
+                            Label = {true}
+                            props={this.props.props}
+                            />
+                            </div>
                         <div>
                             <MenuItem >
                                 <CreateLabel />

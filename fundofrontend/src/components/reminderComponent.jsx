@@ -68,14 +68,14 @@ export default class Reminder extends Component {
 
     handleToggleOpen = (id, oldTitle, oldContent) => {
         // it checks for the previous state
-        this.setdeleteNoteState({
-            modadeleteNotel: !this.state.modal,
-            notedeleteNoteId: id,
-            titldeleteNotee: oldTitle,
-            contdeleteNoteent: oldContent
+        this.setState({
+            modal: !this.state.modal,
+            noteId: id,
+            title: oldTitle,
+            content: oldContent
         });
-        console.deleteNotelog("id ......", id);
-        console.deleteNotelog("note id ......", this.state.noteId);
+        console.Notelog("id ......", id);
+        console.Notelog("note id ......", this.state.noteId);
     }
 
     handleClose = () => {

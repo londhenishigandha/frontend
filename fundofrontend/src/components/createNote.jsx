@@ -5,7 +5,6 @@ import { userNotes } from '../services/noteService';
 import { withRouter } from 'react-router-dom'
 import ColorPallete from './colorPalette';
 import MoreOptions from './moreOptions';
-import Reminder from './reminderComponent'
 import SetReminder from '../components/setReminder'
 
 
@@ -14,10 +13,10 @@ const theme = createMuiTheme({
         MuiCard: {
             root: {
                 display: "flex",
-                width: "288px",
-                "margin-top": "76px",
-                "line-height": "58px",
-                "border-radius": "12px",
+                width: 461,
+                marginTop: "76px",
+                lineHeight: "58px",
+                borderRadius: "12px",
                 padding: "10px"
             }
         }
@@ -110,6 +109,16 @@ class CreateNote extends Component {
         })
     }
 
+
+    handlecreatelabel(value) {
+       
+        console.log("label", value);
+        
+        this.setState({
+            label: value
+        })
+    }
+
     // To submit
     handleSubmit = () => {
         this.setState({
@@ -166,13 +175,22 @@ class CreateNote extends Component {
                 display: "flex",
                 justifyContent: "center"
             }}>
+                <div>
                 <MuiThemeProvider theme={theme}>
                     <Card className="notes card-desc" style={{ backgroundColor: this.state.color }} >
 
                         <div className="Notemainnn">
                             <div>
                                 {/* For Title */}
+                                <div className="pinnote">
+                                <Tooltip title="pin"> 
+                                    <img src={require('../assets/images/pin.png')}
+                                        alt="pin"
+                                    />
+                                </Tooltip>
+                                </div>
                                 <InputBase className="noteinput"
+                                
                                     type="text"
 
                                     multiline
@@ -185,7 +203,7 @@ class CreateNote extends Component {
                                 >
                                 </InputBase>
                             </div>
-
+                           
                             <div>
                                 {/* For Content */}
                                 <InputBase className="noteinputcontent"
@@ -229,8 +247,7 @@ class CreateNote extends Component {
                                  toolsPropsToColorpallete={this.handleColor}
                                  noteID = ''
                                />
-                                </div
-                                >
+                                </div >
                                 {/* To archive the notes */}
                                 <div>
                                 <Tooltip title="Archive"> 
@@ -251,22 +268,29 @@ class CreateNote extends Component {
                                 <div>
                                 <Tooltip title="More"> 
                                 <MoreOptions
-                                                PropsToDelete={this.handleDelete}
-                                                noteID=''></MoreOptions>
+                                        PropsToDelete={this.handleDelete}
+                                        noteID=''
+                                        createNote = {true}
+                                        toolsPropsTocreatelabel={this.handlecreatelabel}
+                                 noteID = ''
+
+                                        ></MoreOptions>
                                 </Tooltip>
-                                </div>
+                                </div>  
                                 <div>
                                     {/* To close */}
                                 <Tooltip title="Close"> 
                                     <Button onClick={this.handleSubmit}><b>Close</b></Button>
                                 </Tooltip>
-                                </div>
+                                </div> 
 
                             </div>
 
                         </div>
+                        
                     </Card>
                 </MuiThemeProvider>
+            </div>
             </div>
 
 

@@ -70,39 +70,26 @@ export default class GetLabel extends Component {
     handleChange = (e, labelId) => {
         let isChecked = e.target.checked;
         let checkedValue = e.target.value
-        // do whatever you want with isChecked value
+        
         console.log("checkbox value", isChecked, labelId, checkedValue);
 
         if (isChecked) {
             var addData = {
                 'noteId': this.props.noteID,
                 data:{
-                'id': [labelId]
+                'label': [labelId]
             }
             }
             addLabelToNotes(addData)
                 .then(() => {
                     // this.props.getAllLabelsToCreateLabels(isChecked);
                     console.log("updated successfully");
-
                 })
                 .catch((err) => {
                     console.log("error in addlabeltonote", err);
                 })
         }
-        // if (!isChecked) {
-        //     var removeData = {
-        //         'noteId': this.props.noteId,
-        //         'labelId': labelId
-        //     }
-        //     NoteServices.removeLabelToNotes(removeData)
-        //         .then(() => {
-        //             this.props.getAllLabelsToCreateLabels(isChecked);
-        //         })
-        //         .catch((err) => {
-        //             console.log("error in addlabeltonote", err);
-        //         })
-        // }
+        
     }
     render() {
         const labelList = this.state.allLabels.map(labels => {

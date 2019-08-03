@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Popper, Paper, MenuItem, ClickAwayListener, InputBase } from '@material-ui/core';
 import PopupState, { bindToggle, bindPopper } from 'material-ui-popup-state';
-import CreateLabel from './createLabel';
-import {Add} from '@material-ui/icons/Add'
 import GetLabel from './getLabel';
 import { createLabel } from '../services/labelService';
 
@@ -13,7 +11,7 @@ class MoreOptions extends Component {
         this.state = {
             open: false,
             addLabel: false,
-            labelName:''
+            labelName: ''
         }
     }
 
@@ -28,20 +26,21 @@ class MoreOptions extends Component {
             console.log("error in handle delete event", err);
         }
     }
-    handleAddLabel=(evt)=> {
-        try{
-            console.log("Note Id :", this.props.noteID)
-        this.setState({ addLabel: !this.state.addLabel });
-           console.log(evt.target.value);
-           
-           }
-        catch(err){
-            console.log("error in add label ", err);
-            
-        }
-    }   
 
-    handleClickAway =() => {
+    handleAddLabel = (evt) => {
+        try {
+            console.log("Note Id :", this.props.noteID)
+            this.setState({ addLabel: !this.state.addLabel });
+            console.log(evt.target.value);
+
+        }
+        catch (err) {
+            console.log("error in add label ", err);
+
+        }
+    }
+
+    handleClickAway = () => {
         this.setState({
             open: false
         })
@@ -49,27 +48,27 @@ class MoreOptions extends Component {
 
     handleCreateLabel = (e) => {
         alert("add")
-            var data = {
+        var data = {
             'label': this.state.labelName
 
         }
 
         console.log("new label", data);
         createLabel(data)
-        .then(res => {
-            console.log("New Label Created",res);
-        }).catch(err => {
-            console.log("error", err);
-        })
-        
+            .then(res => {
+                console.log("New Label Created", res);
+            }).catch(err => {
+                console.log("error", err);
+            })
+
     }
 
     handleChangeLabel = (e) => {
         this.setState({
-            [e.target.name]:e.target.value
+            [e.target.name]: e.target.value
         })
         console.log(this.state.labelName);
-        
+
     }
 
     render() {
@@ -84,60 +83,56 @@ class MoreOptions extends Component {
 
                         </div>
                         {/* <ClickAwayListener onClickAway={this.handleClickAway}> */}
-                            {/* to control a popper component */}
-                            <Popper {...bindPopper(popupState)} transition >
+                        {/* to control a popper component */}
+                        <Popper {...bindPopper(popupState)} transition >
 
 
-                                <Paper>
+                            <Paper>
 
-                                    
-                                    <ClickAwayListener onClickAway={this.handleClickAway}><div>
-                                    {!this.state.addLabel ?
-                                        
-                                            <div>
-                                                <MenuItem onClick={this.handleDelete}>Delete Note</MenuItem>
-                                                 <MenuItem onClick={this.handleAddLabel}>
-                                                     Add Label
+
+                                <ClickAwayListener onClickAway={this.handleClickAway}><div>
+                                     {!this.state.addLabel ?  
+                
+
+                                        <div>
+                                            <MenuItem onClick={this.handleDelete}>Delete Note</MenuItem>
+                                            <MenuItem onClick={this.handleAddLabel}>
+                                                Add Label
                                                  </MenuItem>
-                                                {/*                                                  
-                                                 <div>
-                                                <CreateLabel />
-                                            </div> */}
-                                            </div>
+                                        </div>
                                                     :
+                                        <div>
                                             <div>
-                                                <div>
-                                               <InputBase
-                                               onChange={this.handleChangeLabel}
-                                               value= {this.state.labelName}
-                                               name="labelName"
-                                               />
-                                               </div>
-                                               <div>
-                                                   <GetLabel
-                                                   createLabelNote ={ "true"}
-                                                   noteID={this.props.noteID}/>
-                                               </div>
-                                               <div onClick={this.handleCreateLabel} style={{cursor:"pointer"}}>
-                                                   <img src={require('../assets/images/add.svg')}
-                                                   alt="add"
-                                                   />
-                                                   
-                                                   <span>Create</span> <span> {this.state.labelName}</span>
-                                               </div>
+                                                <InputBase
+                                                    onChange={this.handleChangeLabel}
+                                                    value={this.state.labelName}
+                                                    name="labelName"
+                                                />
                                             </div>
-                                            }
+                                            <div>
+                                                <GetLabel
+                                                    createLabelNote={"true"}
+                                                    noteID={this.props.noteID} />
                                             </div>
-                        </ClickAwayListener>
+                                            <div onClick={this.handleCreateLabel} style={{ cursor: "pointer" }}>
+                                                <img src={require('../assets/images/add.svg')}
+                                                    alt="add"
+                                                />
+                                                <span>Create</span> <span> {this.state.labelName}</span>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                </ClickAwayListener>
 
-                                    
 
 
 
-                                </Paper>
+
+                            </Paper>
 
 
-                            </Popper>
+                        </Popper>
                     </div>
                 )}
             </PopupState>

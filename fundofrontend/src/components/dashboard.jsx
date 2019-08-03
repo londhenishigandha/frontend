@@ -10,6 +10,7 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import { withRouter } from 'react-router-dom';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Drawer from '../components/drawer'
+import UserProfile from './userProfile';
 
 const thm = createMuiTheme({
   overrides: {
@@ -180,6 +181,7 @@ class DashboardComponent extends Component {
                       </div>
                     </div>
                   }
+                  
                 >
                   <IconButton
                     aria-owns={open ? "simple-popper" : undefined}
@@ -206,7 +208,8 @@ class DashboardComponent extends Component {
                   }}
                 >
                   <div>
-                    <Button variant="outlined" onClick={this.handleLogout}><span className="add-account">Sign out</span></Button>
+                  <UserProfile></UserProfile>
+                    {/* <Button variant="outlined" onClick={this.handleLogout}><span className="add-account">Sign out</span></Button> */}
                   </div>
 
                 </Popover>

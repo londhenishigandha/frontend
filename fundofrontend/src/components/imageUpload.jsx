@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Tooltip } from '@material-ui/core';
+
+
 class UploadImage extends Component {
 
     
-    triggerInputFile() {
+    inputFile() {
         try{
         this.fileInput.click();
         }catch(err){
@@ -16,20 +18,19 @@ class UploadImage extends Component {
         try{
         console.log("upload image",evt.target.files[0]);
         
-        this.props.uploadImage(evt.target.files[0],this.props.note._id)
+        this.props.uploadImages(evt.target.files[0],this.props.note._id)
         }catch(err){
             console.log("error in upload image");
         }
     }
     render() {
         return (
-            // GROUP INLINE ELEMENT
+            
             <span>
             <Tooltip title="Upload Image"> 
-                <img src={require('../assests/images/addImageIcon.svg')}
-                    className="uploadImage"
-                    alt="upload pic icon"
-                    onClick={() => { this.triggerInputFile() }} />
+                <img src={require('../assets/images/addImageIcon.svg')}
+                  alt="Add image"/>
+                    onClick={() => { this.inputFile() }} />
             </Tooltip>
                 <input ref={fileInput => this.fileInput = fileInput}
                     type="file" style={{ 'display': 'none' }}

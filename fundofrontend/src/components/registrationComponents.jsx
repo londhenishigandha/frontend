@@ -62,6 +62,7 @@ class RegistrationComponent extends Component {
     loginClick = () => {
         this.props.history.push('login')
     }
+  
 
     render() {
         return (

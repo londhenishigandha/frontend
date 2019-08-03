@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { getAllNotes, archiveNote,setReminder } from '../services/noteService';
-import { updateNote,colorChange, deleteNote } from '../services/noteService';
-import { Card, InputBase, Dialog, Button, Tooltip } from '@material-ui/core';
+import { updateNote, deleteNote } from '../services/noteService';
+import { Chip,Card, InputBase, Dialog, Button, Tooltip } from '@material-ui/core';
 import ColorPallete from './colorPalette';
 import MoreOptions from '../components/moreOptions'
+import Collaborator from '../components/collaboratorComponent'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
 import SetReminder from '../components/setReminder'
 
@@ -16,7 +17,7 @@ const theme = createMuiTheme({
                 "padding": "10px",
                 "overflow": "hidden",
                 "margin-top": "76px",
-                "line-height": "58px",
+                "line-height": "39px",
                 "border-radius": "12px",
             }
         }
@@ -27,7 +28,7 @@ const theme = createMuiTheme({
 
 function searchingFor(search) {
     return function (x) {
-        return x.title.includes(search) || x.content.includes(search)
+        return x.title.includes(search) || x.content.includes(search) 
     }
 }
 
@@ -44,6 +45,7 @@ export default class Notes extends Component {
             modal: false,
             isArchived: false,
             color: '',
+            reminder:'',
             search: [],
         }
     }
@@ -65,6 +67,11 @@ export default class Notes extends Component {
             .catch(err => {
                 console.log("error", err);
             })
+    }
+
+    handledelete=()=>{
+        console.log("Delete Reminder");
+        
     }
 
     handleToggleOpen = (id, oldTitle, oldContent) => {
@@ -167,8 +174,6 @@ export default class Notes extends Component {
                 console.log("Error in delete notes", err);
 
             })
-           
-    
     }
 
     handlereminder = (reminderdate, noteId) => {
@@ -202,6 +207,7 @@ export default class Notes extends Component {
         }
     }
 
+   
     render() {
         const views = this.props.view ? "list" : null
         const notes = this.state.allNotes.filter(searchingFor(this.props.search)).map(key => {
@@ -214,7 +220,13 @@ export default class Notes extends Component {
                         >
 
                             <div >
-
+                            <div className="pinnote">
+                                <Tooltip title="pin"> 
+                                    <img src={require('../assets/images/pin.png')}
+                                        alt="pin"
+                                    />
+                                </Tooltip>
+                                </div>
                                 <InputBase className="noteiinput"
                                     multiline
                                     spellCheck={true}
@@ -235,7 +247,13 @@ export default class Notes extends Component {
                                 >
                                 </InputBase>
                                 <div>
-                                    {key.reminder}
+                                {key.reminder?
+                                <Chip
+                                    label={key.reminder}
+                                    // onClick={handleClick}
+                                    onDelete={this.handledelete}
+                                />
+                                :null}
                                 </div>
                                 <div className="IconBottom"
                                     style={{ backgroundColor: key.color }}
@@ -250,11 +268,12 @@ export default class Notes extends Component {
                                         </Tooltip>
                                     </div>
                                     <div>
-                                        <Tooltip title="Collaborator">
+                                        {/* <Tooltip title="Collaborator">
                                             <img src={require('../assets/images/collaboratorIcon.svg')}
                                                 alt="collaborator"
                                             />
-                                        </Tooltip>
+                                        </Tooltip> */}
+                                        <Collaborator></Collaborator>
                                     </div>
                                     <div>
                                     <Tooltip title="Change color">
@@ -278,6 +297,10 @@ export default class Notes extends Component {
                                             <img src={require('../assets/images/addImageIcon.svg')}
                                                 alt="Add image"
                                             />
+                                            {/* <uploadImage className="image">
+                                            toolsPropsToImages={this.handleImage}
+                                            noteID={key.id}>
+                                            </uploadImage> */}
                                         </Tooltip>
                                     </div>
 
@@ -310,6 +333,13 @@ export default class Notes extends Component {
 
 
                                 <div>
+                                <div className="pinnote">
+                                <Tooltip title="pin"> 
+                                    <img src={require('../assets/images/pin.png')}
+                                        alt="pin"
+                                    />
+                                </Tooltip>
+                                </div>
                                     <InputBase className="noteinput"
                                         type="text"
                                         multiline
@@ -408,4 +438,4 @@ export default class Notes extends Component {
             </div>
         )
     }
-}
+};

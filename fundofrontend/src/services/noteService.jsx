@@ -37,8 +37,8 @@ export function updateNote(note_id, data) {
       })
   }
 
-export function updateImages(data){
-  return axios.put(`http://127.0.0.1:8000/notes/`,data, {
+export function uploadImages(data){
+  return axios.s3_upload(`http://127.0.0.1:8000/s3uploads/`,data, {
       headers: {
           "Authorization": localStorage.getItem("token")
       }
@@ -81,6 +81,14 @@ export function setReminder(data, id){
 
 export function trash(){
   return axios.get('http://127.0.0.1:8000/trash/',{
+      headers: {
+          "Authorization": localStorage.getItem("token")
+      }
+  })
+}
+
+export function collaborateNote(data){
+  return axios.put(`http://127.0.0.1:8000/notesview/${data.id}/`, data, {
       headers: {
           "Authorization": localStorage.getItem("token")
       }
