@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { getAllNotes, archiveNote,setReminder } from '../services/noteService';
+import { getAllNotes, archiveNote, setReminder } from '../services/noteService';
 import { updateNote, deleteNote } from '../services/noteService';
-import { Chip,Card, InputBase, Dialog, Button, Tooltip } from '@material-ui/core';
+import { Chip, Card, InputBase, Dialog, Button, Tooltip } from '@material-ui/core';
 import ColorPallete from './colorPalette';
 import MoreOptions from '../components/moreOptions'
 import Collaborator from '../components/collaboratorComponent'
@@ -12,7 +12,7 @@ const theme = createMuiTheme({
     overrides: {
         MuiCard: {
             root: {
-                'width': "288px",   
+                'width': "288px",
                 "display": "flex",
                 "padding": "10px",
                 "overflow": "hidden",
@@ -28,7 +28,7 @@ const theme = createMuiTheme({
 
 function searchingFor(search) {
     return function (x) {
-        return x.title.includes(search) || x.content.includes(search) 
+        return x.title.includes(search) || x.content.includes(search)
     }
 }
 
@@ -45,7 +45,7 @@ export default class Notes extends Component {
             modal: false,
             isArchived: false,
             color: '',
-            reminder:'',
+            reminder: '',
             search: [],
         }
     }
@@ -69,9 +69,13 @@ export default class Notes extends Component {
             })
     }
 
-    handledelete=()=>{
+    handledelete = () => {
         console.log("Delete Reminder");
-        
+
+    }
+    handledeletelabel = () => {
+        console.log("Delete label");
+
     }
 
     handleToggleOpen = (id, oldTitle, oldContent) => {
@@ -135,7 +139,7 @@ export default class Notes extends Component {
             })
     }
     // For color
-    handleColor = (value , noteId ) => {
+    handleColor = (value, noteId) => {
         console.log("Value in handlecolor", value);
 
         this.setState({
@@ -147,15 +151,15 @@ export default class Notes extends Component {
         }
         // update the note 
         updateNote(noteId, data)
-                .then(response => {
-                    console.log("update note function", response);
-                    this.getUpdateNotes();
-                    this.getNotes();
-                })
-                .catch(err => {
-                    console.log("Eroorrrrrr....", err);
-                })
-     }
+            .then(response => {
+                console.log("update note function", response);
+                this.getUpdateNotes();
+                this.getNotes();
+            })
+            .catch(err => {
+                console.log("Eroorrrrrr....", err);
+            })
+    }
 
     handleDelete = (noteId) => {
         var data = {
@@ -203,11 +207,15 @@ export default class Notes extends Component {
     handleDeleteReminder = (noteId) => {
         var data = {
             'noteIdList': [noteId],
-            'reminder':""
+            'reminder': ""
         }
     }
 
-   
+    saveCollaborator = (value) => {
+
+    }
+
+
     render() {
         const views = this.props.view ? "list" : null
         const notes = this.state.allNotes.filter(searchingFor(this.props.search)).map(key => {
@@ -220,12 +228,12 @@ export default class Notes extends Component {
                         >
 
                             <div >
-                            <div className="pinnote">
-                                <Tooltip title="pin"> 
-                                    <img src={require('../assets/images/pin.png')}
-                                        alt="pin"
-                                    />
-                                </Tooltip>
+                                <div className="pinnote">
+                                    <Tooltip title="pin">
+                                        <img src={require('../assets/images/pin.png')}
+                                            alt="pin"
+                                        />
+                                    </Tooltip>
                                 </div>
                                 <InputBase className="noteiinput"
                                     multiline
@@ -247,40 +255,67 @@ export default class Notes extends Component {
                                 >
                                 </InputBase>
                                 <div>
-                                {key.reminder?
-                                <Chip
-                                    label={key.reminder}
-                                    // onClick={handleClick}
-                                    onDelete={this.handledelete}
-                                />
-                                :null}
+                                    {key.reminder ?
+                                        <Chip
+                                            label={key.reminder}
+                                            onDelete={this.handledelete}
+                                        />
+                                        : null}
                                 </div>
+                                {/* <div>
+                                {key.label?
+                                    let l = key.label.map(lk=>{
+                                        <Chip
+                                        label={l}
+                                        onDelete={this.handledelete}
+                                    />
+                                    })
+                                
+                                :null}
+                                </div> */}
+                                {/* Add a chip to labels */}
+                                {(key.label.length > 0) ?
+                                    <div style={{ display: 'flex' }}>
+                                        {key.label.map(labelkey => {
+
+                                            return (<Chip
+                                                size="small"
+                                                label={labelkey}
+                                                onDelete={this.handledeletelabel}
+                                                className="Labelchip"
+                                            />)
+                                        }
+                                        )}
+
+                                    </div> : null
+                                }
+
                                 <div className="IconBottom"
                                     style={{ backgroundColor: key.color }}
                                 >
+                                    {/* For reminder */}
                                     <div>
                                         <Tooltip title="reminder">
-                                        <SetReminder
-                                            toolsPropsToReminder={this.handlereminder}
-                                            noteID={key.id}>
-                                        </SetReminder>
+                                            <SetReminder
+                                                toolsPropsToReminder={this.handlereminder}
+                                                noteID={key.id}>
+                                            </SetReminder>
 
                                         </Tooltip>
                                     </div>
                                     <div>
-                                        {/* <Tooltip title="Collaborator">
-                                            <img src={require('../assets/images/collaboratorIcon.svg')}
-                                                alt="collaborator"
-                                            />
-                                        </Tooltip> */}
-                                        <Collaborator></Collaborator>
+                                        {/* For collaborator */}
+                                        <Collaborator
+                                            saveCollaborator={this.saveCollaborator}
+                                            noteID={key.id}
+                                        ></Collaborator>
                                     </div>
                                     <div>
-                                    <Tooltip title="Change color">
-                                        <ColorPallete className="color"
-                                            toolsPropsToColorpallete={this.handleColor}
-                                            noteID={key.id}
-                                        ></ColorPallete>
+                                        <Tooltip title="Change color">
+                                            <ColorPallete className="color"
+                                                toolsPropsToColorpallete={this.handleColor}
+                                                noteID={key.id}
+                                            ></ColorPallete>
                                         </Tooltip>
                                     </div>
                                     <div>
@@ -297,10 +332,6 @@ export default class Notes extends Component {
                                             <img src={require('../assets/images/addImageIcon.svg')}
                                                 alt="Add image"
                                             />
-                                            {/* <uploadImage className="image">
-                                            toolsPropsToImages={this.handleImage}
-                                            noteID={key.id}>
-                                            </uploadImage> */}
                                         </Tooltip>
                                     </div>
 
@@ -326,20 +357,20 @@ export default class Notes extends Component {
                             key={key.id}
                             open={this.state.modal}
                             onClose={this.handleClose}
-                            
+
                         >
 
                             <Card className="notes card-desc" style={{ backgroundColor: this.state.color }} >
 
 
                                 <div>
-                                <div className="pinnote">
-                                <Tooltip title="pin"> 
-                                    <img src={require('../assets/images/pin.png')}
-                                        alt="pin"
-                                    />
-                                </Tooltip>
-                                </div>
+                                    <div className="pinnote">
+                                        <Tooltip title="pin">
+                                            <img src={require('../assets/images/pin.png')}
+                                                alt="pin"
+                                            />
+                                        </Tooltip>
+                                    </div>
                                     <InputBase className="noteinput"
                                         type="text"
                                         multiline
@@ -352,7 +383,7 @@ export default class Notes extends Component {
                                     >
                                     </InputBase>
                                 </div>
-                        
+
                                 <div>
 
                                     <InputBase className="noteinputcontent"
@@ -365,61 +396,61 @@ export default class Notes extends Component {
                                         onfocus=" "
                                         name="content">
                                     </InputBase>
-                               
-                                <div className="IconBottom"
-                                >
-                                    <div>
-                                        <Tooltip title="reminder">
-                                            <img src={require('../assets/images/reminderIcon.svg')}
-                                                alt="reminder"
-                                            />
-                                        </Tooltip>
-                                    </div>
-                                    <div>
-                                        <Tooltip title="Collaborator">
-                                            <img src={require('../assets/images/collaboratorIcon.svg')}
-                                                alt="collaborator"
-                                            />
-                                        </Tooltip>
-                                    </div>
-                                    <div>
-                                        <ColorPallete
-                                            toolsPropsToColorpallete={this.handleColor}
-                                            noteID={key.id}
-                                        ></ColorPallete>
-                                    </div>
-                                    <div>
-                                        <Tooltip title="Archive">
-                                            <img src={require('../assets/images/archieve.svg')}
-                                                alt="Archieve"
-                                                onClick={() => this.handleArchive(key.id)}
-                                                style={{ cursor: "pointer" }}
-                                            />
-                                        </Tooltip>
-                                    </div>
-                                    <div>
-                                        <Tooltip title="Add Image">
-                                            <img src={require('../assets/images/addImageIcon.svg')}
-                                                alt="Add image"
-                                            />
-                                        </Tooltip>
+
+                                    <div className="IconBottom"
+                                    >
+                                        <div>
+                                            <Tooltip title="reminder">
+                                                <img src={require('../assets/images/reminderIcon.svg')}
+                                                    alt="reminder"
+                                                />
+                                            </Tooltip>
+                                        </div>
+                                        <div>
+                                            <Tooltip title="Collaborator">
+                                                <img src={require('../assets/images/collaboratorIcon.svg')}
+                                                    alt="collaborator"
+                                                />
+                                            </Tooltip>
+                                        </div>
+                                        <div>
+                                            <ColorPallete
+                                                toolsPropsToColorpallete={this.handleColor}
+                                                noteID={key.id}
+                                            ></ColorPallete>
+                                        </div>
+                                        <div>
+                                            <Tooltip title="Archive">
+                                                <img src={require('../assets/images/archieve.svg')}
+                                                    alt="Archieve"
+                                                    onClick={() => this.handleArchive(key.id)}
+                                                    style={{ cursor: "pointer" }}
+                                                />
+                                            </Tooltip>
+                                        </div>
+                                        <div>
+                                            <Tooltip title="Add Image">
+                                                <img src={require('../assets/images/addImageIcon.svg')}
+                                                    alt="Add image"
+                                                />
+                                            </Tooltip>
+                                        </div>
+
+                                        <div>
+                                            <Tooltip title="More">
+                                                <MoreOptions
+                                                    PropsToDelete={this.handleDelete}
+                                                    noteID={key.id}></MoreOptions>
+                                            </Tooltip>
+                                        </div>
+                                        <div>
+                                            <Tooltip title="Close">
+                                                <Button onClick={this.handleSubmit}><b>Close</b></Button>
+                                            </Tooltip>
+                                        </div>
                                     </div>
 
-                                    <div>
-                                        <Tooltip title="More">
-                                            <MoreOptions
-                                                PropsToDelete={this.handleDelete}
-                                                noteID={key.id}></MoreOptions>
-                                        </Tooltip>
-                                    </div>
-                                    <div>
-                                        <Tooltip title="Close">
-                                            <Button onClick={this.handleSubmit}><b>Close</b></Button>
-                                        </Tooltip>
-                                    </div>
                                 </div>
-
-                            </div>
                             </Card>
 
                         </Dialog>

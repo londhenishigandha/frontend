@@ -37,3 +37,14 @@ export function ProfileUpload(data){
     })
   }
 
+  export function getAllUsers(data){
+    // image.append('document', data)
+    // console.log("form data", image);   
+    return axios.get(`http://127.0.0.1:8000/user_email/`, {
+        headers: {
+            "Authorization": localStorage.getItem("token")
+        }
+  
+    })
+  }
+

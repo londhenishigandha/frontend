@@ -87,10 +87,11 @@ export function trash(){
   })
 }
 
-export function collaborateNote(data){
-  return axios.put(`http://127.0.0.1:8000/notesview/${data.id}/`, data, {
+export function addcollaboratorsNotes(data, noteId){
+  return axios.put(`http://127.0.0.1:8000/collaborator/${noteId}/`, data, {
       headers: {
           "Authorization": localStorage.getItem("token")
       }
   })
 }
+

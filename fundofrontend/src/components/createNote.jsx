@@ -6,6 +6,8 @@ import { withRouter } from 'react-router-dom'
 import ColorPallete from './colorPalette';
 import MoreOptions from './moreOptions';
 import SetReminder from '../components/setReminder'
+import Collaborator from '../components/collaboratorComponent'
+
 
 
 const theme = createMuiTheme({
@@ -146,6 +148,12 @@ class CreateNote extends Component {
             })
     }
 
+    moreOptionsToCreateNote = (labelId) =>{
+        this.setState({
+           label: labelId
+        })
+    }
+
 
     render() {
         return (!this.state.openNote ?
@@ -235,11 +243,7 @@ class CreateNote extends Component {
                                     </div>  
                                     {/* To set collaborator  */}
                                 <div>
-                                <Tooltip title="Collaborator"> 
-                                    <img src={require('../assets/images/collaboratorIcon.svg')}
-                                        alt="collaborator"
-                                    />
-                                </Tooltip>
+                                    <Collaborator></Collaborator>
                                 </div>
                                 {/* To set or change the color of notes */}
                                 <div>
@@ -268,11 +272,15 @@ class CreateNote extends Component {
                                 <div>
                                 <Tooltip title="More"> 
                                 <MoreOptions
-                                        PropsToDelete={this.handleDelete}
-                                        noteID=''
-                                        createNote = {true}
-                                        toolsPropsTocreatelabel={this.handlecreatelabel}
-                                 noteID = ''
+                                //         PropsToDelete={this.handleDelete}
+                                //         noteID=''
+                                //         createNote = {true}
+                                //         toolsPropsTocreatelabel={this.handlecreatelabel}
+                                //  noteID = ''
+                                toolsPropsTocreatelabel={this.handlecreatelabel}
+                                noteID={''}
+                                moreOptionsToCreateNote = {this.moreOptionsToCreateNote}
+                                createNoteLabel = {"true"}
 
                                         ></MoreOptions>
                                 </Tooltip>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Tooltip, Card, Button} from '@material-ui/core'
+import {Tooltip, Button} from '@material-ui/core'
 import { blue } from '@material-ui/core/colors';
 import { ProfileUpload } from '../services/userService'
 import userLogout from '../services/userService'
@@ -84,7 +84,7 @@ class UserProfile extends Component{
                             size="small" 
                             variant="outline" 
                             color="primary" 
-                            onClick = {this.handleLogout}
+                            onClick={this.handleLogout}
                             > Logout 
                         </Button>
 

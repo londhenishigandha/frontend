@@ -10,6 +10,7 @@ export default class GetLabel extends Component {
             mouseOver: false,
             labelId: '',
             editLabel: '',
+            label_list:[]
         }
     }
     componentDidMount() {
@@ -72,12 +73,19 @@ export default class GetLabel extends Component {
         let checkedValue = e.target.value
         
         console.log("checkbox value", isChecked, labelId, checkedValue);
+        var labels =  this.state.label_list
+        labels.push(labelId)
+        this.setState({
+            label_list : labels
+        })
 
+        console.log("Label List", this.state.label_list);
+        
         if (isChecked) {
             var addData = {
                 'noteId': this.props.noteID,
                 data:{
-                'label': [labelId]
+                'label': this.state.label_list
             }
             }
             addLabelToNotes(addData)

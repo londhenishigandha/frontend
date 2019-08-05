@@ -91,8 +91,14 @@ class MoreOptions extends Component {
 
 
                                 <ClickAwayListener onClickAway={this.handleClickAway}><div>
-                                     {!this.state.addLabel ?  
-                
+                                     {!this.state.addLabel ?
+                                      this.props.createNoteLabel
+                                     ? 
+                                      <div>
+                                     <MenuItem onClick={this.handleAddLabel}>
+                                         Add Label
+                                          </MenuItem>
+                                 </div>:
 
                                         <div>
                                             <MenuItem onClick={this.handleDelete}>Delete Note</MenuItem>
@@ -100,6 +106,7 @@ class MoreOptions extends Component {
                                                 Add Label
                                                  </MenuItem>
                                         </div>
+
                                                     :
                                         <div>
                                             <div>
