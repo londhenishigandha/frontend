@@ -36,6 +36,15 @@ export function updateNote(note_id, data) {
     
       })
   }
+  
+  export function getArchiveNote() {
+    return axios.get(`http://127.0.0.1:8000/archieve/`, {
+        headers: {
+          "Authorization": localStorage.getItem("token")
+        }
+    
+      })
+  }
 
 export function uploadImages(data){
   return axios.s3_upload(`http://127.0.0.1:8000/s3uploads/`,data, {
@@ -77,7 +86,13 @@ export function setReminder(data, id){
       }
   })
 }
-
+export function getReminder(){
+  return axios.get(`http://127.0.0.1:8000/reminder/`,{
+      headers: {
+          "Authorization": localStorage.getItem("token")
+      }
+  })
+}
 
 export function trash(){
   return axios.get('http://127.0.0.1:8000/trash/',{

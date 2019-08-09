@@ -15,7 +15,7 @@ const theme = createMuiTheme({
         MuiCard: {
             root: {
                 display: "flex",
-                width: 461,
+                width: 461,     
                 marginTop: "76px",
                 lineHeight: "58px",
                 borderRadius: "12px",
@@ -41,8 +41,8 @@ class CreateNote extends Component {
             is_trash: "",
             is_archieve: "",
             is_pin: "",
-            color:'',
-            reminder :''
+            color: '',
+            reminder: null
         }
         // To bind
         this.handleColor = this.handleColor.bind(this);
@@ -81,16 +81,16 @@ class CreateNote extends Component {
         })
     }
     handleColor(value) {
-       
+
         console.log("color", value);
-        
+
         this.setState({
             color: value
         })
     }
 
     handlereminder(value) {
-      
+
         console.log("reminder set", value);
         this.setState({
             reminder: value
@@ -99,7 +99,7 @@ class CreateNote extends Component {
 
     // for archive
     handleArchive(value) {
-     
+
         this.setState({
             is_archieve: value
         })
@@ -113,9 +113,9 @@ class CreateNote extends Component {
 
 
     handlecreatelabel(value) {
-       
+
         console.log("label", value);
-        
+
         this.setState({
             label: value
         })
@@ -125,14 +125,14 @@ class CreateNote extends Component {
     handleSubmit = () => {
         this.setState({
             openNote: !this.state.openNote,
-            title:'',
+            title: '',
             content: ''
         })
         var data = {
             'content': this.state.content,
             'title': this.state.title,
             'color': this.state.color,
-            'reminder':this.state.reminder
+            'reminder': this.state.reminder
         }
         console.log('data in note create ==>', data);
 
@@ -141,16 +141,16 @@ class CreateNote extends Component {
             .then(response => {
                 console.log('data in note create @@@@@@@==>', data);
                 console.log('note created', response);
-                
+
             })
             .catch(err => {
                 console.log("Error in note creation", err);
             })
     }
 
-    moreOptionsToCreateNote = (labelId) =>{
+    moreOptionsToCreateNote = (labelId) => {
         this.setState({
-           label: labelId
+            label: labelId
         })
     }
 
@@ -161,19 +161,18 @@ class CreateNote extends Component {
                 display: "flex",
                 justifyContent: "center"
             }}>
-
+                {/* card for note */}
                 <MuiThemeProvider theme={theme}>
                     <Card className="Mainnotes"  >
                         <div className="Notemainnn">
-                            <div  onClick={this.handleNotes}>
+                            <div onClick={this.handleNotes}>
                                 <InputBase className="noteiinput"
                                     multiline
-                                    placeholder="Take a Note....." 
-                                   
+                                    placeholder="Take a Note....."
                                 >
                                 </InputBase>
                             </div>
-                            </div>
+                        </div>
                     </Card>
                 </MuiThemeProvider>
 
@@ -184,121 +183,115 @@ class CreateNote extends Component {
                 justifyContent: "center"
             }}>
                 <div>
-                <MuiThemeProvider theme={theme}>
-                    <Card className="notes card-desc" style={{ backgroundColor: this.state.color }} >
+                    <MuiThemeProvider theme={theme}>
+                        <Card className="notes card-desc" style={{ backgroundColor: this.state.color }} >
 
-                        <div className="Notemainnn">
-                            <div>
-                                {/* For Title */}
-                                <div className="pinnote">
-                                <Tooltip title="pin"> 
-                                    <img src={require('../assets/images/pin.png')}
-                                        alt="pin"
-                                    />
-                                </Tooltip>
+                            <div className="Notemainnn">
+                                <div>
+                                    {/* For pin icon */}
+                                    <div className="pinnote">
+                                        <Tooltip title="pin">
+                                            <img src={require('../assets/images/pin.png')}
+                                                alt="pin"
+                                            />
+                                        </Tooltip>
+                                    </div>
+                                    <InputBase className="noteinput"
+
+                                        type="text"
+
+                                        multiline
+                                        spellCheck={true}
+                                        placeholder="Title"
+                                        value={this.state.title}
+                                        onChange={this.handleChangeEvent}
+                                        onfocus=" "
+                                        name="title"
+                                    >
+                                    </InputBase>
                                 </div>
-                                <InputBase className="noteinput"
-                                
-                                    type="text"
 
-                                    multiline
-                                    spellCheck={true}
-                                    placeholder="Title"
-                                    value={this.state.title}
-                                    onChange={this.handleChangeEvent}
-                                    onfocus=" "
-                                    name="title"
-                                >
-                                </InputBase>
-                            </div>
-                           
-                            <div>
-                                {/* For Content */}
-                                <InputBase className="noteinputcontent"
-                                    type="text"
+                                <div>
+                                    {/* For Content */}
+                                    <InputBase className="noteinputcontent"
+                                        type="text"
 
-                                    multiline
-                                    spellCheck={true}
-                                    placeholder="Take a Note....."
-                                    value={this.state.content}
-                                    onChange={this.handleChangeEvent}
-                                    onfocus=" "
-                                    name="content">
-                                </InputBase>
-                            </div>
-                            <div>
-                                {this.state.reminder}
-                            </div>
-                            <div className="IconBottom">
-                            <div>
+                                        multiline
+                                        spellCheck={true}
+                                        placeholder="Take a Note....."
+                                        value={this.state.content}
+                                        onChange={this.handleChangeEvent}
+                                        onfocus=" "
+                                        name="content">
+                                    </InputBase>
+                                </div>
+                                <div>
+                                    {this.state.reminder}
+                                </div>
+                                <div className="IconBottom">
+                                    <div>
                                         {/* To set reminder */}
                                         <Tooltip title="reminder">
-                                        <SetReminder
-                                            toolsPropsToReminder={this.handlereminder}
-                                            noteID = ''
+                                            <SetReminder
+                                                toolsPropsToReminder={this.handlereminder}
+                                                noteID=''
                                             >
-                                        </SetReminder>
+                                            </SetReminder>
 
                                         </Tooltip>
-                                    </div>  
+                                    </div>
                                     {/* To set collaborator  */}
-                                <div>
-                                    <Collaborator></Collaborator>
-                                </div>
-                                {/* To set or change the color of notes */}
-                                <div>
-                               <ColorPallete 
-                                 toolsPropsToColorpallete={this.handleColor}
-                                 noteID = ''
-                               />
-                                </div >
-                                {/* To archive the notes */}
-                                <div>
-                                <Tooltip title="Archive"> 
-                                    <img src={require('../assets/images/archieve.svg')}
-                                        alt="Archieve"
-                                    />
-                                </Tooltip>
-                                </div>
-                                {/* To add image */}
-                                <div>
-                                <Tooltip title="Add image"> 
-                                    <img src={require('../assets/images/addImageIcon.svg')}
-                                        alt="Add Image"
-                                    />
-                                </Tooltip>
-                                </div>
-                               {/* for more options */}
-                                <div>
-                                <Tooltip title="More"> 
-                                <MoreOptions
-                                //         PropsToDelete={this.handleDelete}
-                                //         noteID=''
-                                //         createNote = {true}
-                                //         toolsPropsTocreatelabel={this.handlecreatelabel}
-                                //  noteID = ''
-                                toolsPropsTocreatelabel={this.handlecreatelabel}
-                                noteID={''}
-                                moreOptionsToCreateNote = {this.moreOptionsToCreateNote}
-                                createNoteLabel = {"true"}
+                                    <div>
+                                        <Collaborator></Collaborator>
+                                    </div>
+                                    {/* To set or change the color of notes */}
+                                    <div>
+                                        <ColorPallete
+                                            toolsPropsToColorpallete={this.handleColor}
+                                            noteID=''
+                                        />
+                                    </div >
+                                    {/* To archive the notes */}
+                                    <div>
+                                        <Tooltip title="Archive">
+                                            <img src={require('../assets/images/archieve.svg')}
+                                                alt="Archieve"
+                                            />
+                                        </Tooltip>
+                                    </div>
+                                    {/* To add image */}
+                                    <div>
+                                        <Tooltip title="Add image">
+                                            <img src={require('../assets/images/addImageIcon.svg')}
+                                                alt="Add Image"
+                                            />
+                                        </Tooltip>
+                                    </div>
+                                    {/* for more options */}
+                                    <div>
+                                        <Tooltip title="More">
+                                            <MoreOptions
+                                                toolsPropsTocreatelabel={this.handlecreatelabel}
+                                                noteID={''}
+                                                moreOptionsToCreateNote={this.moreOptionsToCreateNote}
+                                                createNoteLabel={"true"}
+                                            ></MoreOptions>
+                                        </Tooltip>
+                                    </div>
+                                    <div>
+                                        {/* To close */}
+                                        <Tooltip title="Close">
+                                            <Button onClick={this.handleSubmit}><b>Close</b></Button>
+                                        </Tooltip>
+                                    </div>
 
-                                        ></MoreOptions>
-                                </Tooltip>
-                                </div>  
-                                <div>
-                                    {/* To close */}
-                                <Tooltip title="Close"> 
-                                    <Button onClick={this.handleSubmit}><b>Close</b></Button>
-                                </Tooltip>
-                                </div> 
+                                </div>
 
                             </div>
 
-                        </div>
-                        
-                    </Card>
-                </MuiThemeProvider>
-            </div>
+                        </Card>
+                    </MuiThemeProvider>
+                </div>
             </div>
 
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Popper from '@material-ui/core/Popper';
 import Fade from '@material-ui/core/Fade';
 import { MenuItem, Paper, Tooltip, ListItem, createMuiTheme, MuiThemeProvider, ClickAwayListener } from '@material-ui/core'
-import { updateNote } from '../services/noteService';
+
 const theme = createMuiTheme({
     overrides: {
         MuiMenuItem: {
@@ -40,6 +40,7 @@ class SetReminder extends Component {
         const { currentTarget } = event;
 
         this.setState(state => ({
+            // used to set the position of the popover.
             anchorEl: currentTarget,
             open: state.placement !== placement || !state.open,
             placement,
@@ -60,13 +61,13 @@ class SetReminder extends Component {
         var hh= date.getHours();
         var mm = date.getMinutes();
         
-        console.log("Today",d,m,y);
+        console.log("Today",d,m,y,hh,mm);
         
         var todayReminder = y+"-"+m+"-"+d+"T8:00:00.000000Z"
         console.log("date   ",todayReminder);
         
         console.log("Today",todayReminder);
-        var data = {
+        var data={
                 'reminder': todayReminder
         }
         console.log("id=================",this.props.noteID);
@@ -83,10 +84,10 @@ class SetReminder extends Component {
         var hh= date.getHours();
         var mm = date.getMinutes();
         
-        console.log("Today",d,m,y);
+        console.log("Today",d,m,y,hh,mm);
         d=31 % d
-        if (d = 1)
-            m=m+1
+        if(d = 1)
+         m=m+1
         var tomorrowReminder = y+"-"+m+"-"+(d)+"T8:00:00.000000Z"
         console.log("date   ",tomorrowReminder);
         

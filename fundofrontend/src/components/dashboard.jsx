@@ -4,7 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { MuiThemeProvider, createMuiTheme, Popover, Button, Tooltip } from '@material-ui/core';
+import { MuiThemeProvider, createMuiTheme, Popover, Tooltip } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { withRouter } from 'react-router-dom';
@@ -150,6 +150,7 @@ class DashboardComponent extends Component {
                   <div>
                     <IconButton onClick={this.handleview}>
                       <img src={require('../assets/images/listView')} alt="list" />
+                      
                     </IconButton>
 
                   </div>
@@ -167,9 +168,8 @@ class DashboardComponent extends Component {
               <div>
                 <Tooltip
 
-                  // title= "demo"
-                  title=
-                  {
+                  // title="demo"
+                  title={
                     <div>
                       <div>
                         <span>{localStorage.getItem('first_name')}</span> <span> {localStorage.getItem('last_name')}</span>

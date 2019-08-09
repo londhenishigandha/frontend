@@ -16,7 +16,7 @@ const theme = createMuiTheme({
                 "display": "flex",
                 "padding": "10px",
                 "overflow": "hidden",
-                "margin-top": "76px",
+                // "margin-top": "76px",
                 "line-height": "39px",
                 "border-radius": "12px",
             }
@@ -99,7 +99,7 @@ export default class Notes extends Component {
     handleChangeEvent = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
-
+    // to submit the data
     handleSubmit = () => {
         this.setState(prevState => ({
             modal: !prevState.modal,
@@ -114,7 +114,6 @@ export default class Notes extends Component {
             updateNote(data)
                 .then(response => {
                     console.log("update note function", response);
-                    this.getUpdateNotes();
                     this.getNotes();
                 })
                 .catch(err => {
@@ -226,8 +225,7 @@ export default class Notes extends Component {
                             style={{ backgroundColor: key.color }}
                             id={views}
                         >
-
-                            <div >
+                            <div style={{width:"98%"}}>
                                 <div className="pinnote">
                                     <Tooltip title="pin">
                                         <img src={require('../assets/images/pin.png')}
@@ -245,7 +243,7 @@ export default class Notes extends Component {
 
                                 >
                                 </InputBase>
-                                <InputBase className="noteiinput"
+                                <InputBase className="noteiinputcontent"
                                     multiline
                                     spellCheck={true}
                                     onClick={() => this.handleToggleOpen(key.id, key.title, key.content)}
@@ -262,20 +260,9 @@ export default class Notes extends Component {
                                         />
                                         : null}
                                 </div>
-                                {/* <div>
-                                {key.label?
-                                    let l = key.label.map(lk=>{
-                                        <Chip
-                                        label={l}
-                                        onDelete={this.handledelete}
-                                    />
-                                    })
-                                
-                                :null}
-                                </div> */}
                                 {/* Add a chip to labels */}
                                 {(key.label.length > 0) ?
-                                    <div style={{ display: 'flex' }}>
+                                    <div style={{ display: 'flex',flexWrap:"wrap" }}>
                                         {key.label.map(labelkey => {
 
                                             return (<Chip
@@ -286,14 +273,14 @@ export default class Notes extends Component {
                                             />)
                                         }
                                         )}
-
                                     </div> : null
                                 }
 
                                 <div className="IconBottom"
                                     style={{ backgroundColor: key.color }}
                                 >
-                                    {/* For reminder */}
+                                    <div className="iconAdjustt">
+                                                                            {/* For reminder */}
                                     <div>
                                         <Tooltip title="reminder">
                                             <SetReminder
@@ -342,6 +329,8 @@ export default class Notes extends Component {
                                                 noteID={key.id}></MoreOptions>
                                         </Tooltip>
                                     </div>
+                                    </div>
+
                                     <div>
                                         <Tooltip title="Close">
                                             <Button onClick={this.handleSubmit}><b>Close</b></Button>
@@ -360,10 +349,10 @@ export default class Notes extends Component {
 
                         >
 
-                            <Card className="notes card-desc" style={{ backgroundColor: this.state.color }} >
+                            <Card className="notes card-desc" style={{ backgroundColor: this.state.color }} id={views} >
 
 
-                                <div>
+                                <div >
                                     <div className="pinnote">
                                         <Tooltip title="pin">
                                             <img src={require('../assets/images/pin.png')}

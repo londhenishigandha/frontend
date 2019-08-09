@@ -36,7 +36,7 @@ class UserProfile extends Component{
         console.log("====================",this.state.file);
         
         profileUpload(this.state.file).then(resp=>{
-            console.log("Upload Success", resp.data)
+            console.log("Upload Successfully", resp.data)
         }).catch(err =>{
             console.log("Errrrrrrr ", err)
         })
@@ -47,9 +47,11 @@ class UserProfile extends Component{
         const LName = localStorage.getItem('last_name')
         const Email = localStorage.getItem('email')
         const username = localStorage.getItem('first_name')
+        console.log("UserName=================",username);
+        
         return(
-                <div >
-               
+            
+                <div>
                 <input
                   accept="image/*"
                   id="contained-button-file"
@@ -61,9 +63,11 @@ class UserProfile extends Component{
                 
                 <label htmlFor="contained-button-file">
                     <Tooltip title="Change">
-                         <img className="profile width" 
-                         src={'https://fundoo-bucket.s3-us-west-2.amazonaws.com/image'+username+'.jpg'} 
+                        <div className="profileupload">
+                         <img className="profilewidth" 
+                         src={`https://fundoo-bucket.s3-us-west-2.amazonaws.com/${username}.jpg`} 
                          alt="Profile Pic" />
+                         </div>
                     </Tooltip><br></br>
                 </label>
                     <div className="profilecontent">   
@@ -73,7 +77,7 @@ class UserProfile extends Component{
                     <div className="Pcardbottom">
                         <Button style={{color:blue}} 
                                 className="btnlogout" 
-                                size="small" 
+                                size="small"    
                                 variant="outline" 
                                 color="primary" 
                                 onClick={this.handle}

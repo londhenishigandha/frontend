@@ -5,7 +5,7 @@ class Note extends Component{
         return (
             <div className="container">
               <Notes
-              props = {this.props}
+              props={this.props}
               />
             </div>
         );

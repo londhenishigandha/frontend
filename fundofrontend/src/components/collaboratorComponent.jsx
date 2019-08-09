@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
-import { Dialog, DialogTitle, Paper,InputBase,Tooltip, DialogActions, Button, List, ListItem,ListItemText, searchText,Typography, DialogContent } from '@material-ui/core';
+import { Dialog, DialogTitle, Paper,InputBase,Tooltip, DialogActions, Button, List, ListItem,ListItemText,DialogContent } from '@material-ui/core';
 import { getAllUsers } from '../services/userService';
 import { addcollaboratorsNotes } from '../services/noteService';
 
@@ -44,29 +44,18 @@ export default class Collaborator extends Component {
     componentDidMount() {
             getAllUsers()
             .then(response => {
-                // console.log("All users list Collaborator", response.data);
-                // console.log("componen 1111",response.data);
-                
                 let userArray = [];
                 userArray = response.data.map(key => {
                     console.log("key ", key);
-                    
-                    
                     return key;
                 })
                 this.setState({
                     userList: userArray
-                })
-                // console.log("conponent did mount ", this.state.userList);
-
+                }) 
             })
             .catch(err => {
                 console.log("error in collab : ", err);
             })
-
-            // this.setState({
-            //     collaborators: this.props.collaborators
-            // })
     }
 
     closePopper = () => {
@@ -74,17 +63,7 @@ export default class Collaborator extends Component {
             open: false
         })
     }
-    // handleColor = (evt) => {
-    //     try {
-    //         // this.closePopper() ;
-    //         console.log("Collaborator: ", this.props.noteID)
-    //         this.props.toolsPropsToCollaborate(evt.target.value, this.props.noteID);
-    //         console.log(evt.target.value);
-    //     } catch (err) {
-    //         console.log("error in handle color event");
-    //     }
-    // }
-
+    
     handleToggle = () => {
         this.setState({ open: true });
         //this.props.handleToggle(!this.state.open)
@@ -101,6 +80,8 @@ export default class Collaborator extends Component {
     }
 
     handleOnchange = (e) => {
+        console.log("User List", this.state.userList);
+        
         const value = e.target.value;
         let suggetions = [];
         if (value.length > 0) {
@@ -172,9 +153,7 @@ export default class Collaborator extends Component {
         const { searchText } = this.state;
         return (
             <div>
-                {/* <img src={require('../assets/images/collaboratorIcon.svg')}
-                          alt="collaborator"
-                          onClick={this.handleCollaborotor()} /> */}
+                
                 <MuiThemeProvider theme={theme}>
                     <Tooltip title="Remind me">
                         <img src={require('../assets/images/collaboratorIcon.svg')}
@@ -186,19 +165,7 @@ export default class Collaborator extends Component {
                         open={this.state.open}
                         onClose={this.handleClose}
                     >
-                        {/* <div>
-                             <InputBase
-                                    type="text"
-                                    multiline
-                                    spellCheck={true}
-                                    placeholder="Collaborator"
-                                    value={this.state.collaborator}
-                                    onChange={this.handleChangeEvent}
-                                    onfocus=" "
-                                    name="collaborator"
-                                >
-                                </InputBase>
-                                </div> */}
+                       
                         <DialogTitle id="customized-dialog-title"style={{ borderBottom: "solid 1px lightgray", padding: "10px 24px" }} onClose={this.handleClose}>
                             Collaborator
                      </DialogTitle>

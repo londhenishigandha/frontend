@@ -22,8 +22,6 @@ class ColorPallete extends Component {
         this.state = {
             open: false
         }
-        // this.handleToggle = this.handleToggle.bind(this);
-        // this.handleColor = this.handleColor.bind(this);
     }
    
     closePopper=()=>{
@@ -44,7 +42,6 @@ class ColorPallete extends Component {
 
     handleToggle=()=>{
         this.setState({ open: !this.state.open });
-        //this.props.handleToggle(!this.state.open)
     }
     render() {
 
@@ -64,9 +61,7 @@ class ColorPallete extends Component {
                 <Tooltip title="Change Color">
                     <img src={require('../assets/images/color.svg')}
                         alt="change color"
-                        // onMouseOver={this.handleToggle}
                         onClick={this.handleToggle}
-                        // onMouseLeave={this.handleToggle}
                     />
                 </Tooltip>
                 <Paper>

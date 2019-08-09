@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import TrashComponent from "../components/trashComponent";
+import NewTrash from "../components/newTrash";
 import DashboardComponent from '../components/dashboard'
 
  class Trash extends Component {
@@ -15,11 +15,11 @@ import DashboardComponent from '../components/dashboard'
             <DashboardComponent
               listview={this.list_grid_view}
               getSearchNote={this.search}
-              props ={this.props} />
+              props={this.props} />
           </div>
           <div>
-                <TrashComponent
-                props ={this.props}
+                <NewTrash
+                props={this.props}
                 />
                 </div>
             </div>

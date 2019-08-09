@@ -42,3 +42,13 @@ export function addLabelToNotes(data) {
 
     })
 }
+
+
+export function addLabel(data) {
+    return axios.post(`http://127.0.0.1:8000/addlabel/${data.noteId}/`,data.data,  {
+        headers: {
+            "Authorization": localStorage.getItem("token")
+        }
+
+    })
+}

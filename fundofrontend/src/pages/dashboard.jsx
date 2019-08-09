@@ -5,6 +5,7 @@ import CreateNote from "../components/createNote";
 import Notes from '../components/notes'
 // import createNote from "../components/createNote";
 import Reminder from '../components/reminderComponent'
+import NoteComponent from "../components/NoteComponent";
 
 class Dashboard extends Component {
   constructor(props) {
@@ -47,11 +48,12 @@ class Dashboard extends Component {
             <CreateNote></CreateNote>
           </div>
           <div>
-            <Notes
+            {/* <Notes
               view={this.state.view}
               search={this.state.search}
-              props ={this.props}
-            ></Notes>
+              props={this.props}
+            ></Notes> */}
+            <NoteComponent></NoteComponent>
           </div>
         </div>
       )

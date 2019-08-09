@@ -32,11 +32,9 @@ class MoreOptions extends Component {
             console.log("Note Id :", this.props.noteID)
             this.setState({ addLabel: !this.state.addLabel });
             console.log(evt.target.value);
-
         }
         catch (err) {
             console.log("error in add label ", err);
-
         }
     }
 
@@ -50,7 +48,6 @@ class MoreOptions extends Component {
         alert("add")
         var data = {
             'label': this.state.labelName
-
         }
 
         console.log("new label", data);
@@ -80,16 +77,9 @@ class MoreOptions extends Component {
                             <img src={require('../assets/images/moreOptionIcon.svg')}
                                 onClick={this.clickMoreOptions}
                                 alt="more options icon" />
-
                         </div>
-                        {/* <ClickAwayListener onClickAway={this.handleClickAway}> */}
-                        {/* to control a popper component */}
                         <Popper {...bindPopper(popupState)} transition >
-
-
                             <Paper>
-
-
                                 <ClickAwayListener onClickAway={this.handleClickAway}><div>
                                      {!this.state.addLabel ?
                                       this.props.createNoteLabel
@@ -106,7 +96,6 @@ class MoreOptions extends Component {
                                                 Add Label
                                                  </MenuItem>
                                         </div>
-
                                                     :
                                         <div>
                                             <div>
@@ -131,21 +120,12 @@ class MoreOptions extends Component {
                                     }
                                 </div>
                                 </ClickAwayListener>
-
-
-
-
-
                             </Paper>
-
-
                         </Popper>
                     </div>
                 )}
             </PopupState>
-
         )
-
     }
 }
 export default MoreOptions;

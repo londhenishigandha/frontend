@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import ArchiveComponent from "../components/archiveComponent";
+import NewArchive from "../components/newArchive";
+import CreateNote from "../components/createNote"
 import DashboardComponent from '../components/dashboard'
 
  class Archive extends Component {
@@ -15,11 +16,14 @@ import DashboardComponent from '../components/dashboard'
             <DashboardComponent
               listview={this.list_grid_view}
               getSearchNote={this.search}
-              props ={this.props} />
+              props={this.props} />
           </div>
           <div>
-                <ArchiveComponent
-                props ={this.props}
+            <CreateNote></CreateNote>
+          </div>
+          <div>
+                <NewArchive
+                props={this.props}
                 />
                 </div>
             </div>

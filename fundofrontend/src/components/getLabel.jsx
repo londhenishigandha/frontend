@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getAllLabel, deleteLabel, updateLabel, addLabelToNotes } from '../services/labelService';
+import { getAllLabel, deleteLabel, updateLabel, addLabel } from '../services/labelService';
 import { InputBase, Checkbox, FormControlLabel } from '@material-ui/core';
 
 export default class GetLabel extends Component {
@@ -19,7 +19,6 @@ export default class GetLabel extends Component {
                 this.setState({
                     allLabels: res.data
                 })
-                // console.log("all labels",res.data);
             })
     }
 
@@ -71,7 +70,6 @@ export default class GetLabel extends Component {
     handleChange = (e, labelId) => {
         let isChecked = e.target.checked;
         let checkedValue = e.target.value
-        
         console.log("checkbox value", isChecked, labelId, checkedValue);
         var labels =  this.state.label_list
         labels.push(labelId)
@@ -85,20 +83,21 @@ export default class GetLabel extends Component {
             var addData = {
                 'noteId': this.props.noteID,
                 data:{
-                'label': this.state.label_list
+                'label': labelId
             }
             }
-            addLabelToNotes(addData)
+            addLabel(addData)
+
                 .then(() => {
-                    // this.props.getAllLabelsToCreateLabels(isChecked);
                     console.log("updated successfully");
                 })
                 .catch((err) => {
                     console.log("error in addlabeltonote", err);
                 })
         }
-        
+            
     }
+    
     render() {
         const labelList = this.state.allLabels.map(labels => {
 
@@ -112,8 +111,6 @@ export default class GetLabel extends Component {
                                                 color="primary"
                                                 style={{ padding: "0" }}
                                                 size="small"
-                                                // {this.state.isChecked.map(checked => {}) }
-                                                // checked={}
                                             />
                                         }
                                         label={labels.label}
@@ -153,12 +150,6 @@ export default class GetLabel extends Component {
                             </div>
                     }
                     <div>
-
-                        {/* <InputBase
-                        value = {labels.label}
-                        readOnly
-                        onClick={() => this.handleEditLabel(labels.id, labels.label)}
-                        /> */}
                         <div>
                             {(labels.id === this.state.labelId) ?
                                 <div>

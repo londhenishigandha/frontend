@@ -1,7 +1,7 @@
 // import CreateNote from './createNote';
 import React, { Component } from 'react'
 import { getAllNotes, archiveNote } from '../services/noteService';
-import { updateNote, colorChange, deleteNote } from '../services/noteService';
+import { updateNote, deleteNote } from '../services/noteService';
 import { Card, InputBase, Dialog, Button, Tooltip } from '@material-ui/core';
 import ColorPallete from './colorPalette';
 import MoreOptions from '../components/moreOptions'
@@ -26,11 +26,6 @@ const theme = createMuiTheme({
 })
 
 
-function searchingFor(search) {
-    return function (x) {
-        return x.title.includes(search) || x.content.includes(search)
-    }
-}
 
 
 export default class Reminder extends Component {
@@ -142,8 +137,7 @@ export default class Reminder extends Component {
             'id': noteId,
             'color': value
 
-        }
-        
+        }    
     }
     handleDelete = (noteId) => {
         var data = {

@@ -72,26 +72,9 @@ class DrawerMenu extends Component {
                         <div style={{ marginRight: "218px", fontSize: "15px", marginBottom: "10px", marginTop: "10px", fontFamily: "arial" }}>
                             LABELS
                     </div>
-
-                        {/* <div>
-                        <MenuItem id="labelMenu" onClick={this.handleLabelOpen}>
-                                <img src={require('../assets/images/label.svg')} alt="label icon"
-                                    style={{ marginRight: "40px" }} />
-                                label1
-                          </MenuItem>
-                        </div>
-
-                        <div>
-                            <MenuItem >
-                                <img src={require('../assets/images/label.svg')} alt="label icon"
-                                    style={{ marginRight: "40px" }} />
-                                label2
-                          </MenuItem>
-                        </div> */}
-
                             <div style={{ marginRight: "40px" }}>
                             <GetLabel 
-                            Label = {true}
+                            Label={true}
                             props={this.props.props}
                             />
                             </div>
@@ -103,7 +86,6 @@ class DrawerMenu extends Component {
 
                     </div>
                     <div>
-
                         <MenuItem id="archiveMenu" onClick={this.handleArchive}>
                             <img src={require('../assets/images/menuArchive.svg')} alt="archive icon"
                                 style={{ marginRight: "40px" }} />
@@ -112,7 +94,6 @@ class DrawerMenu extends Component {
                     </div>
 
                     <div >
-
                         <MenuItem id="trashIcon" onClick={this.handleTrash}>
                             <img src={require('../assets/images/menuTrash.svg')} alt="trash icon"
                                 style={{ marginRight: "40px" }} />
@@ -120,8 +101,6 @@ class DrawerMenu extends Component {
                     </MenuItem>
                     </div>
                 </Drawer>
-
-
             </div>
         )
     }
