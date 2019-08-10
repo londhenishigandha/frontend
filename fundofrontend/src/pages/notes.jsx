@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import Notes from '../components/notes'
+import NoteComponent from '../components/NoteComponent'
 class Note extends Component{
     render(){
         return (
             <div className="container">
-              <Notes
+              <NoteComponent
               props={this.props}
               />
             </div>

@@ -60,7 +60,7 @@ class UserProfile extends Component{
                   onChange={(event)=>this.handleProfilePic(event)}
                   style={{ display: "none" }}
                 />
-                
+                <div className="profile">
                 <label htmlFor="contained-button-file">
                     <Tooltip title="Change">
                         <div className="profileupload">
@@ -70,11 +70,14 @@ class UserProfile extends Component{
                          </div>
                     </Tooltip><br></br>
                 </label>
+
                     <div className="profilecontent">   
                        {Email}<br/>
                        {Fname+"  "+LName}
                     </div>
-                    <div className="Pcardbottom">
+                    </div>
+                    <div className="profilebuttons">
+                        
                         <Button style={{color:blue}} 
                                 className="btnlogout" 
                                 size="small"    
@@ -83,6 +86,7 @@ class UserProfile extends Component{
                                 onClick={this.handle}
                                 >Add Account
                         </Button>
+                        
                         <Button style={{color:blue}}
                             className="btnlogout" 
                             size="small" 
@@ -91,6 +95,7 @@ class UserProfile extends Component{
                             onClick={this.handleLogout}
                             > Logout 
                         </Button>
+                       
 
                     </div>
                      

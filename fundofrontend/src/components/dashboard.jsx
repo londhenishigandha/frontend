@@ -109,6 +109,7 @@ class DashboardComponent extends Component {
     // anchorEl returns the DOM element,
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
+    const username = localStorage.getItem('first_name')
 
     console.log("dashboard props", this.props);
     
@@ -190,7 +191,9 @@ class DashboardComponent extends Component {
                     onClick={this.handleClick}
                     className="user-profile-btn"
                   >
-                    <AccountCircle />
+                    <img className="profilewidth" 
+                         src={`https://fundoo-bucket.s3-us-west-2.amazonaws.com/${username}.jpg`} 
+                         alt="Profile Pic" /> 
                   </IconButton>
                 </Tooltip>
                 <Popover

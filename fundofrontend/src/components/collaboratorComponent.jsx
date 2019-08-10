@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
-import { Dialog, DialogTitle, Paper,InputBase,Tooltip, DialogActions, Button, List, ListItem,ListItemText,DialogContent } from '@material-ui/core';
+import { Dialog, DialogTitle, Paper, InputBase, Tooltip, DialogActions, Button, List, ListItem, ListItemText, DialogContent } from '@material-ui/core';
 import { getAllUsers } from '../services/userService';
 import { addcollaboratorsNotes } from '../services/noteService';
 
@@ -31,9 +31,9 @@ export default class Collaborator extends Component {
             allNotes: [],
             collaborator: '',
             open: false,
-            searchText:'',
+            searchText: '',
             userDetails: [],
-            collaborators:[],
+            collaborators: [],
             suggetions: [],
             userList: [],
 
@@ -42,7 +42,7 @@ export default class Collaborator extends Component {
 
 
     componentDidMount() {
-            getAllUsers()
+        getAllUsers()
             .then(response => {
                 let userArray = [];
                 userArray = response.data.map(key => {
@@ -51,7 +51,7 @@ export default class Collaborator extends Component {
                 })
                 this.setState({
                     userList: userArray
-                }) 
+                })
             })
             .catch(err => {
                 console.log("error in collab : ", err);
@@ -63,7 +63,7 @@ export default class Collaborator extends Component {
             open: false
         })
     }
-    
+
     handleToggle = () => {
         this.setState({ open: true });
         //this.props.handleToggle(!this.state.open)
@@ -81,7 +81,7 @@ export default class Collaborator extends Component {
 
     handleOnchange = (e) => {
         console.log("User List", this.state.userList);
-        
+
         const value = e.target.value;
         let suggetions = [];
         if (value.length > 0) {
@@ -115,7 +115,7 @@ export default class Collaborator extends Component {
             return null
         }
         return (
-            <Paper style={{height:"auto",maxHeight: "125px", overflow:"auto"}}>
+            <Paper style={{ height: "auto", maxHeight: "125px", overflow: "auto" }}>
                 <List>
                     {suggetions.map((users) =>
                         users !== localStorage.getItem('email') &&
@@ -129,33 +129,34 @@ export default class Collaborator extends Component {
 
 
 
-    handleSaveCollaborator (value){
-            var data  = {
-                'collaborate':value
-            }
-                addcollaboratorsNotes(data, this.props.noteID)
-        
+    handleSaveCollaborator(value) {
+        var data = {
+            'collaborate': value
+        }
+        addcollaboratorsNotes(data, this.props.noteID)
+
             .then((response) => {
                 console.log("collab added successfully", response);
                 this.setState({
-                    searchText: ''      
+                    searchText: ''
                 })
             })
             .catch(error => {
                 console.log("err in collab", error);
             })
-            }
+    }
 
     render() {
         const Fname = localStorage.getItem('first_name')
         const LName = localStorage.getItem('last_name')
         const Email = localStorage.getItem('email')
-        const { searchText } = this.state;
+
+
         return (
             <div>
-                
+
                 <MuiThemeProvider theme={theme}>
-                    <Tooltip title="Remind me">
+                    <Tooltip title="collaborate">
                         <img src={require('../assets/images/collaboratorIcon.svg')}
                             className="collaborator"
                             onClick={this.handleToggle} alt="collaborator" />
@@ -165,46 +166,78 @@ export default class Collaborator extends Component {
                         open={this.state.open}
                         onClose={this.handleClose}
                     >
-                       
-                        <DialogTitle id="customized-dialog-title"style={{ borderBottom: "solid 1px lightgray", padding: "10px 24px" }} onClose={this.handleClose}>
+
+                        <DialogTitle id="customized-dialog-title" style={{ borderBottom: "solid 1px lightgray", padding: "10px 24px" }} onClose={this.handleClose}>
                             Collaborator
                      </DialogTitle>
                         <DialogContent dividers>
-                            
-                                <div className="collaboratorcontent"
-                                 style={{fontSize:'0.8rem', width:"100%"}}>
-                               
-                                    <b>{Fname + "  " + LName}</b>(Owner)<br></br>
-                                    {Email}<br />
-                                    <div style={{ display: "flex", flexDirection: "column", width:"100%" }}>
-                                        <div className="collab-input-search-div">
-                                            <InputBase
-                                                type="text"
-                                                placeholder="Person or email to share with"
-                                                name="searchText"
-                                                value={this.state.searchText}
-                                                onChange={this.handleOnchange}
-                                                style={{fontSize:'0.8rem', width:"100%"}}
-                                            />
-                                        </div>
-                                    </div>
 
+                            <div className="collaboratorcontent"
+                                style={{ fontSize: '0.8rem', width: "100%" }}>
+                                <div collborateimage>
+                                    <div className="profileupload">
+                                        <img className="profilewidth"
+                                            src={`https://fundoo-bucket.s3-us-west-2.amazonaws.com/${Fname}.jpg`}
+                                            alt="Profile Pic" />
+                                    </div>
+                                    <div className="usernamenlastname">
+                                        <b>{Fname + "  " + LName}</b>(Owner)<br></br>
+                                        {Email}<br />
+                                    </div>
                                 </div>
-                                {this.renderSuggetions()}
+                                <List style={{ fontSize: '0.8rem', width: "100%" }} >
+                                    {this.props.collaboratorUser.map((users) =>
+                                        users !== localStorage.getItem('email') &&
+                                        <ListItem onClick={() => this.handleSaveCollaborator(users)} key={users.userId}>
+                                            <ListItemText >
+                                            {users}
+                                            </ListItemText>
+                                        </ListItem>
+                                    )}
+                                </List>
+                                <div style={{ display: "flex", flexDirection: "column", width: "100%", marginLeft:"51px" }}>
+                                    <div className="collab-input-search-div">
+                                    <div >
+                                    <div className="collabupload" style={{ marginLeft: "-40px"}}>
+                                        <img className="collabwidth" style={{ }}
+                                             src={require('../assets/images/collaborator1.svg')}
+                                            alt="collaborate Pic" />
+                                    </div>
+                                        <InputBase
+                                            type="text"
+                                            placeholder="Person or email to share with"
+                                            name="searchText"
+                                            value={this.state.searchText}
+                                            onChange={this.handleOnchange}
+                                            style={{ fontSize: '0.8rem', width: "100%" }}
+                                        />
+                                    </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                            {this.renderSuggetions()}
+
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={this.handleClose} color="primary">
-                                Save 
+                                Save
             </Button>
-            <Button onClick={this.handleClose} color="primary">
+                            <Button onClick={this.handleClose} color="primary">
                                 Cancel
             </Button>
                         </DialogActions>
+
                     </Dialog>
 
                 </MuiThemeProvider>
             </div>
 
         )
+
     }
+
 }

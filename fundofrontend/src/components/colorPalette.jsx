@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { IconButton, Tooltip, Card, ClickAwayListener, Paper } from '@material-ui/core';
+import { IconButton, Popper, Tooltip, Card, ClickAwayListener, Paper } from '@material-ui/core';
+import PopupState, { bindToggle, bindPopper } from 'material-ui-popup-state';
 
 
-const hexCodesAndNames = 
-[   { name: "lightcoral", hexCode: "#f28b81" },
+const hexCodesAndNames =
+    [{ name: "lightcoral", hexCode: "#f28b81" },
     { name: "lavender", hexCode: "#e8eaed" },
     { name: "orange", hexCode: "#f7bc02" },
     { name: "green", hexCode: "#ccff8f" },
@@ -15,7 +16,7 @@ const hexCodesAndNames =
     { name: "wheat", hexCode: "#e6c9a8" },
     { name: "mistyrose", hexCode: "#fbcfe8" },
     { name: "white", hexCode: "#ffffff" }
-]
+    ]
 class ColorPallete extends Component {
     constructor(props) {
         super(props);
@@ -23,24 +24,24 @@ class ColorPallete extends Component {
             open: false
         }
     }
-   
-    closePopper=()=>{
+
+    closePopper = () => {
         this.setState({
             open: false
         })
     }
-    handleColor=(evt)=>{
-        try{
-        // this.closePopper() ;
-        console.log("Color Component 37: ", this.props.noteID)
-        this.props.toolsPropsToColorpallete(evt.target.value, this.props.noteID);
-        console.log(evt.target.value);
-        }catch(err){
+    handleColor = (evt) => {
+        try {
+            // this.closePopper() ;
+            console.log("Color Component 37: ", this.props.noteID)
+            this.props.toolsPropsToColorpallete(evt.target.value, this.props.noteID);
+            console.log(evt.target.value);
+        } catch (err) {
             console.log("error in handle color event");
-        } 
+        }
     }
 
-    handleToggle=()=>{
+    handleToggle = () => {
         this.setState({ open: !this.state.open });
     }
     render() {
@@ -50,31 +51,38 @@ class ColorPallete extends Component {
                 <IconButton style={{ backgroundColor: colorKey.hexCode, "margin": "2px", }}
                     value={colorKey.hexCode}
                     onClick={this.handleColor}
-                   
-                    >
+
+                >
                 </IconButton>
             </Tooltip>
         );
 
         return (
-            <div className="color-pallate-icon">
-                <Tooltip title="Change Color">
-                    <img src={require('../assets/images/color.svg')}
-                        alt="change color"
-                        onClick={this.handleToggle}
-                    />
-                </Tooltip>
-                <Paper>
-                    {this.state.open ?
-                        <ClickAwayListener onClickAway={() => this.closePopper()}>
-                            <Card className="colorPalleteCard">
-                                {changeCardColor}
-                            </Card>
-                        </ClickAwayListener>
+            
+            <PopupState variant="popper" >
+                {popupState => (
+                    <div className="color">
+                        <div variant="contained" {...bindToggle(popupState)}>
+                            <Tooltip title="Change Color">
+                                <img src={require('../assets/images/color.svg')}
+                                    alt="change color"
+                                    onClick={this.handleToggle}
+                                />  
+                            </Tooltip>
+                        </div>
+                        <Popper  {...bindPopper(popupState)} transition className="colorPopper" >
 
-                        : null}
-                </Paper>
-            </div>
+                            {this.state.open ?
+                                <Paper
+                                    className="colorPalleteCard">
+                                    {changeCardColor}
+
+                                </Paper>
+                                : null}
+                        </Popper>
+                    </div>
+                )}
+            </PopupState>
 
         )
     }

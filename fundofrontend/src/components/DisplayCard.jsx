@@ -152,7 +152,7 @@ export default class DisplayCard extends Component {
         updateNote(noteId, data)
             .then(response => {
                 console.log("update note function", response);
-                this.getUpdateNotes();
+                // this.getUpdateNotes();
                 this.getNotes();
             })
             .catch(err => {
@@ -220,7 +220,7 @@ export default class DisplayCard extends Component {
                 <div>   
                     <MuiThemeProvider theme={theme}>
                         <Card className="Mainnotes"
-                            style={{ backgroundColor: key.color }}
+                            style={{ backgroundColor: key.color,marginTop:"10px" }}
                             id={views}
                         >
                             <div style={{width:"98%"}}>
@@ -273,6 +273,20 @@ export default class DisplayCard extends Component {
                                         )}
                                     </div> : null
                                 }
+                                {(key.collaborate.length > 0) ?
+                                    <div style={{ display: 'flex',flexWrap:"wrap" }}>
+                                        {key.collaborate.map(collaborate => {
+
+                                            return (<Chip
+                                                size="small"
+                                                label={collaborate}
+                                                onDelete={this.handledeletelabel}
+                                                className="collaboratorchip"
+                                            />)
+                                        }
+                                        )}
+                                    </div> : null
+                                }
 
                                 <div className="IconBottom"
                                     style={{ backgroundColor: key.color }}
@@ -293,6 +307,7 @@ export default class DisplayCard extends Component {
                                         <Collaborator
                                             saveCollaborator={this.saveCollaborator}
                                             noteID={key.id}
+                                            collaboratorUser={key.collaborate}
                                         ></Collaborator>
                                     </div>
                                     <div>
@@ -386,20 +401,23 @@ export default class DisplayCard extends Component {
 
                                     <div className="IconBottom"
                                     >
+                                         <div>
+                                        <Tooltip title="reminder">
+                                            <SetReminder
+                                                toolsPropsToReminder={this.handlereminder}
+                                                noteID={key.id}>
+                                            </SetReminder>
+
+                                        </Tooltip>
+                                    </div>
                                         <div>
-                                            <Tooltip title="reminder">
-                                                <img src={require('../assets/images/reminderIcon.svg')}
-                                                    alt="reminder"
-                                                />
-                                            </Tooltip>
-                                        </div>
-                                        <div>
-                                            <Tooltip title="Collaborator">
-                                                <img src={require('../assets/images/collaboratorIcon.svg')}
-                                                    alt="collaborator"
-                                                />
-                                            </Tooltip>
-                                        </div>
+                                        {/* For collaborator */}
+                                        <Collaborator
+                                            saveCollaborator={this.saveCollaborator}
+                                            noteID={key.id}
+                                            collaboratorUser={key.collaborate}
+                                        ></Collaborator>
+                                    </div>
                                         <div>
                                             <ColorPallete
                                                 toolsPropsToColorpallete={this.handleColor}
