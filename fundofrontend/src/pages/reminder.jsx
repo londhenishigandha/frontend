@@ -4,6 +4,26 @@ import DashboardComponent from '../components/dashboard'
 import CreateNote from '../components/createNote'
 
 class Reminder extends Component {
+    constructor(props) {
+        super(props);
+        this.state={
+            view: false,
+            search: ""      
+        }
+    }
+    list_grid_view = (value) => {
+        this.setState({
+          view: !value
+        })
+      }
+    
+      search = (value) => {
+        this.setState({
+          search: value
+    
+        })
+    
+      }
     render() {
         
         return (
@@ -20,7 +40,9 @@ class Reminder extends Component {
 
                 <div>
                     <NewReminder
-                        props={this.props}
+                       view={this.state.view}
+                       search={this.state.search}
+                       props={this.props}
                     />
                 </div>
             </div>

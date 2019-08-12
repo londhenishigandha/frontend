@@ -56,11 +56,13 @@ export default class NewReminder extends Component {
     }
 
     render() {
-        return (        
+        return (
             <div>
                 <DisplayCard
-                allNotes={this.state.allNotes}
-                ></DisplayCard>
+                    viewList={this.props.view}
+                    allNotes={this.state.allNotes}
+                    searchNote={this.props.search}               
+                     ></DisplayCard>
             </div>
         )
 

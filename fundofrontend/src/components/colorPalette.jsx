@@ -61,7 +61,9 @@ class ColorPallete extends Component {
             
             <PopupState variant="popper" >
                 {popupState => (
+                    <ClickAwayListener onClickAway={() => this.closePopper()}>
                     <div className="color">
+                        
                         <div variant="contained" {...bindToggle(popupState)}>
                             <Tooltip title="Change Color">
                                 <img src={require('../assets/images/color.svg')}
@@ -70,17 +72,19 @@ class ColorPallete extends Component {
                                 />  
                             </Tooltip>
                         </div>
+                        
                         <Popper  {...bindPopper(popupState)} transition className="colorPopper" >
 
                             {this.state.open ?
                                 <Paper
-                                    className="colorPalleteCard">
+                                     style={{display:"flex", flexWrap:"wrap", width:"30%", marginLeft:"20%", marginTop:"-1%"}}>
                                     {changeCardColor}
 
                                 </Paper>
                                 : null}
                         </Popper>
                     </div>
+                    </ClickAwayListener>
                 )}
             </PopupState>
 

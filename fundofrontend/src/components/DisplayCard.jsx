@@ -51,24 +51,7 @@ export default class DisplayCard extends Component {
     }
 
     // it executed after first render 
-    componentDidMount() {
-        this.getNotes();
-    }
-
-    getNotes() {
-        // get all notes which define in noteservices
-        getAllNotes()
-            .then(response => {
-                console.log("reponse", response.data);
-                this.setState({
-                    allNotes: response.data
-                })
-            })
-            .catch(err => {
-                console.log("error", err);
-            })
-    }
-
+    
     handledelete = () => {
         console.log("Delete Reminder");
 
@@ -140,7 +123,6 @@ export default class DisplayCard extends Component {
     // For color
     handleColor = (value, noteId) => {
         console.log("Value in handlecolor", value);
-
         this.setState({
             color: value
         })
@@ -153,7 +135,7 @@ export default class DisplayCard extends Component {
             .then(response => {
                 console.log("update note function", response);
                 // this.getUpdateNotes();
-                this.getNotes();
+                this.props.displayCardToNotes(true)
             })
             .catch(err => {
                 console.log("Eroorrrrrr....", err);
@@ -214,8 +196,8 @@ export default class DisplayCard extends Component {
     }
 
     render() {
-        const views = this.props.view ? "list" : null
-        const notes = this.props.allNotes.map(key => {
+        const views = this.props.viewList ? "list" : null
+        const notes = this.props.allNotes.filter(searchingFor(this.props.searchNote)).map(key => {
             return (
                 <div>   
                     <MuiThemeProvider theme={theme}>
@@ -308,6 +290,9 @@ export default class DisplayCard extends Component {
                                             saveCollaborator={this.saveCollaborator}
                                             noteID={key.id}
                                             collaboratorUser={key.collaborate}
+
+                                            CreateNoteToCollaborator = {true}
+                                            // collaboratorArray = {key.}
                                         ></Collaborator>
                                     </div>
                                     <div>
@@ -416,6 +401,7 @@ export default class DisplayCard extends Component {
                                             saveCollaborator={this.saveCollaborator}
                                             noteID={key.id}
                                             collaboratorUser={key.collaborate}
+                                            CreateNoteToCollaborator = {true}
                                         ></Collaborator>
                                     </div>
                                         <div>

@@ -15,6 +15,9 @@ class Dashboard extends Component {
       search: ""
 
     }
+
+    this.noteToCards = React.createRef();
+
   }
   list_grid_view = (value) => {
     this.setState({
@@ -29,6 +32,11 @@ class Dashboard extends Component {
     })
 
   }
+
+ getNewNote = (newNote) => {
+        console.log("newnote==>", newNote);
+        this.noteToCards.current.displayCard(newNote);
+    }
   render() {
     if (localStorage.getItem('token1') !== "true") {
       return (
@@ -45,15 +53,19 @@ class Dashboard extends Component {
               props={this.props}/>
           </div>
           <div>
-            <CreateNote></CreateNote>
+            <CreateNote
+            getNewNote = {this.getNewNote}
+            ></CreateNote>
           </div>
           <div>
             {/* <Notes
-              view={this.state.view}
-              search={this.state.search}
-              props={this.props}
+             
             ></Notes> */}
-            <NoteComponent></NoteComponent>
+            <NoteComponent
+             view={this.state.view}
+             search={this.state.search}
+             props={this.props}
+             ref={this.noteToCards}></NoteComponent>
           </div>
         </div>
       )

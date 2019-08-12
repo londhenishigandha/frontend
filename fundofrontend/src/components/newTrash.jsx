@@ -59,9 +59,12 @@ export default class NewTrash extends Component {
         return (        
             <div>
                 <DisplayCard
-                allNotes={this.state.allNotes}
+                 viewList={this.props.view}
+                 allNotes={this.state.allNotes}
+                 searchNote={this.props.search}
                 ></DisplayCard>
             </div>
+
         )
 
     }

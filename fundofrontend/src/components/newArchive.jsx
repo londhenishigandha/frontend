@@ -1,6 +1,6 @@
 // import CreateNote from './createNote';
 import React, { Component } from 'react'
-import {  getArchiveNote } from '../services/noteService';
+import { getArchiveNote } from '../services/noteService';
 import DisplayCard from './DisplayCard';
 import { createMuiTheme } from '@material-ui/core'
 
@@ -56,11 +56,13 @@ export default class NewArchive extends Component {
     }
 
     render() {
-        return (        
+        return (
             <div >
                 <DisplayCard
-                allNotes={this.state.allNotes}
-                ></DisplayCard>
+                    viewList={this.props.view}
+                    allNotes={this.state.allNotes}
+                    searchNote={this.props.search}                
+                    ></DisplayCard>
             </div>
         )
 

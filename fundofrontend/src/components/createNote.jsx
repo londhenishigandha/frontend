@@ -42,7 +42,9 @@ class CreateNote extends Component {
             is_archieve: "",
             is_pin: "",
             color: '',
-            reminder: null
+            reminder: null,
+            searchText:'',
+            newNote : []
         }
         // To bind
         this.handleColor = this.handleColor.bind(this);
@@ -132,16 +134,20 @@ class CreateNote extends Component {
             'content': this.state.content,
             'title': this.state.title,
             'color': this.state.color,
-            'reminder': this.state.reminder
+            'reminder': this.state.reminder,
+            // 'collaborate': [this.state.searchText]
         }
         console.log('data in note create ==>', data);
+
+
 
         // user notes from user services will check 
         userNotes(data)
             .then(response => {
                 console.log('data in note create @@@@@@@==>', data);
-                console.log('note created', response);
-
+                console.log('note created', response.data);
+                this.setState({ newNote: response.data })
+                this.props.getNewNote(this.state.newNote);
             })
             .catch(err => {
                 console.log("Error in note creation", err);
@@ -152,6 +158,14 @@ class CreateNote extends Component {
         this.setState({
             label: labelId
         })
+    }
+
+    searchTextToCreateNote =  async(searchText) => {
+        await this.setState({
+            searchText:searchText
+        })
+        console.log(this.state.searchText);
+        
     }
 
 
@@ -241,9 +255,10 @@ class CreateNote extends Component {
                                         </Tooltip>
                                     </div>
                                     {/* To set collaborator  */}
-                                    <div>
-                                        <Collaborator></Collaborator>
-                                    </div>
+                                        <Collaborator
+                                        searchTextToCreateNote = {this.searchTextToCreateNote}
+                                        createNoteToCollaborator={true}
+                                        />
                                     {/* To set or change the color of notes */}
                                     <div>
                                         <ColorPallete
