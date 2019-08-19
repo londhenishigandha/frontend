@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { archiveNote, setReminder, pinNote } from '../services/noteService';
+import { archiveNote, unpinNote, setReminder, pinNote } from '../services/noteService';
 import { updateNote, deleteNote } from '../services/noteService';
 import { Chip, Card, InputBase, Dialog, Button, Tooltip } from '@material-ui/core';
 import ColorPallete from './colorPalette';
@@ -7,7 +7,7 @@ import MoreOptions from './moreOptions'
 import Collaborator from './collaboratorComponent'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
 import SetReminder from './setReminder'
-import NewPinned from './newPinned';
+
 
 const theme = createMuiTheme({
     overrides: {
@@ -55,9 +55,15 @@ export default class DisplayCard extends Component {
         console.log("Delete Reminder");
 
     }
-    handledeletelabel = () => {
-        console.log("Delete label");
+    handledeletelabel = (labelname, noteID) => {
+        console.log("Delete label", labelname , noteID);
+        var data = {
+            'id': noteID,
+            'label': labelname,
+        }
 
+
+        console.log("Delete label", data);
     }
 
     handleToggleOpen = (id, oldTitle, oldContent) => {
@@ -113,6 +119,22 @@ export default class DisplayCard extends Component {
             .then(response => {
                 console.log("Archive succcessfylly .....", response);
                 this.props.displayCardToNotes(true)
+            })
+            .catch(err => {
+                console.log("Error", err);
+            })
+    }
+    handleUnArchive = (noteId) => {
+        var data = {
+            'is_archive': false
+        }
+
+        console.log(data);
+        
+        updateNote(noteId,data)
+            .then(response => {
+                console.log("Unarchive succcessfylly .....", response);
+                // this.props.displayCardToNotes(true)
             })
             .catch(err => {
                 console.log("Error", err);
@@ -207,7 +229,22 @@ export default class DisplayCard extends Component {
                 console.log("Error", err);
             })
     }
+    handleUnPin = (noteId) => {
+        var data = {
+          
+            'is_pin': false
+        }
+        updateNote(noteId,data)
+            .then(async response => {
+                console.log("Unpin succcessfylly .....", response);
+                 await this.props.displayCardToNotes(true)
+                // await this.props.displayCardToPinNotes(true)
 
+            })
+            .catch(err => {
+                console.log("Error", err);
+            })
+    }
     moreOptionsToDisplayCard = (value) => {
         this.props.displayCardToNotes(value)
     }
@@ -217,7 +254,6 @@ export default class DisplayCard extends Component {
         const views = this.props.viewList ? "list" : null;
         const notes = this.props.allNotes.filter(searchingFor(this.props.searchNote)).map(key => {
             return (
-
                 <div>
                     <MuiThemeProvider theme={theme}>
                         <Card className="Mainnotes"
@@ -226,11 +262,11 @@ export default class DisplayCard extends Component {
                         >
                             <div style={{ width: "98%" }}>
                                 <div className="pinnote">
-                                    {this.props.pinnedNotes ?
+                                    { key.is_pin ?
                                         <Tooltip title="unpin">
                                             <img src={require('../assets/images/pin1.svg')}
                                                 alt="pin"
-                                                // onClick={() => this.handlePin(key.id)}
+                                                onClick={() => this.handleUnPin(key.id)}
                                                 style={{ cursor: "pointer" }}
                                             />
                                         </Tooltip>
@@ -277,7 +313,7 @@ export default class DisplayCard extends Component {
                                             return (<Chip
                                                 size="small"
                                                 label={labelkey}
-                                                onDelete={this.handledeletelabel}
+                                                onDelete={() => this.handledeletelabel(labelkey, key.id)}
                                             />)
                                         }
                                         )}
@@ -328,14 +364,24 @@ export default class DisplayCard extends Component {
                                             </Tooltip>
                                         </div>
                                         <div>
+                                         {  !key.is_archive ?
                                             <Tooltip title="Archive">
                                                 <img src={require('../assets/images/archieve.svg')}
                                                     alt="Archieve"
                                                     onClick={() => this.handleArchive(key.id)}
                                                     style={{ cursor: "pointer" }}
                                                 />
+                                            </Tooltip>:
+                                            <Tooltip title="UnArchive">
+                                                <img src={require('../assets/images/unarchive.svg')}
+                                                    alt="Archieve"
+                                                    onClick={() => this.handleUnArchive(key.id)}
+                                                    style={{ cursor: "pointer" }}
+                                                />
                                             </Tooltip>
+                                         }
                                         </div>
+                                        
                                         <div>
                                             <Tooltip title="Add Image">
                                                 <img src={require('../assets/images/addImageIcon.svg')}

@@ -1,8 +1,8 @@
 // import CreateNote from './createNote';
 import React, { Component } from 'react'
-import { getArchiveNote } from '../services/noteService';
+import { getArchiveNote,unarchive } from '../services/noteService';
 import DisplayCard from './DisplayCard';
-import { createMuiTheme } from '@material-ui/core'
+
 
 
 export default class NewArchive extends Component {
@@ -29,17 +29,28 @@ export default class NewArchive extends Component {
                 console.log("error", err);
             })
     }
+    getunarchivenotes(){
+     unarchive()
+            .then(response => {
+            console.log("reponse", response.data);
+            this.setState({
+            allNotes: response.data
+})
+    })
+    .catch (err => {
+    console.log("error", err);
+})
+}
+render() {
+    return (
+        <div >
+            <DisplayCard
+                viewList={this.props.view}
+                allNotes={this.state.allNotes}
+                searchNote={this.props.search}
+            ></DisplayCard>
+        </div>
+    )
 
-    render() {
-        return (
-            <div >
-                <DisplayCard
-                    viewList={this.props.view}
-                    allNotes={this.state.allNotes}
-                    searchNote={this.props.search}                
-                    ></DisplayCard>
-            </div>
-        )
-
-    }
+}
 }

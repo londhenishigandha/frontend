@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { getAllNotes, getPinnedNotes } from '../services/noteService';
+import { getAllNotes } from '../services/noteService';
 import DisplayCard from './DisplayCard';
-import NewPinned from './newPinned';
+
 
 export default class NoteComponent extends Component {
     constructor(props) {

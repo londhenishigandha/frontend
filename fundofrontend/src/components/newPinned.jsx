@@ -1,6 +1,6 @@
 // import CreateNote from './createNote';
 import React, { Component } from 'react'
-import { getPinnedNotes } from '../services/noteService';
+import { getPinnedNotes,unpinNote } from '../services/noteService';
 import DisplayCard from './DisplayCard';
 
 export default class NewPinned extends Component {
@@ -18,6 +18,20 @@ export default class NewPinned extends Component {
 
     getPinnedNotes = () => {
         getPinnedNotes()
+            .then(async res => {
+                var allNotesArray = [];
+                for (let i = res.data.length - 1; i >= 0; i--) {
+                    allNotesArray.push(res.data[i])
+                }
+                await this.setState({ pinnedNotes: allNotesArray })
+
+            })
+            .catch(err => {
+                console.log("error", err);
+            })
+    }
+    getUnPinnedNotes = () => {
+        unpinNote()
             .then(async res => {
                 var allNotesArray = [];
                 for (let i = res.data.length - 1; i >= 0; i--) {

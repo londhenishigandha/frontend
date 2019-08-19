@@ -27,7 +27,7 @@ export function updateNote(note_id, data) {
   
     })
   }
-
+  
   export function archiveNote(data) {
     return axios.put(`http://127.0.0.1:8000/archive/${data.id}/`, data, {
         headers: {
@@ -37,6 +37,14 @@ export function updateNote(note_id, data) {
       })
   }
   
+  export function unarchive(data) {
+    return axios.put(`http://127.0.0.1:8000/unarchive/${data.id}/`, data, {
+        headers: {
+          "Authorization": localStorage.getItem("token")
+        }
+    
+      })
+  }
   export function getArchiveNote() {
     return axios.get(`http://127.0.0.1:8000/archive/`, {
         headers: {
@@ -120,6 +128,14 @@ export function getPinnedNotes() {
 }
 export function pinNote(data) {
   return axios.put(`http://127.0.0.1:8000/pin/${data.id}/`, data, {
+      headers: {
+        "Authorization": localStorage.getItem("token")
+      }
+  
+    })
+}
+export function unpinNote(data) {
+  return axios.put(`http://127.0.0.1:8000/unpin/${data.id}/`, data, {
       headers: {
         "Authorization": localStorage.getItem("token")
       }
