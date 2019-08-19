@@ -25,7 +25,6 @@ class UploadImage extends Component {
     }
     render() {
         return (
-            
             <span>
             <Tooltip title="Upload Image"> 
                 <img src={require('../assets/images/addImageIcon.svg')}
@@ -37,7 +36,6 @@ class UploadImage extends Component {
                     className="uploadImage"
                     onChange={(evt)=>this.uploadImage(evt)}
                 />
-
             </span>
         )
     }

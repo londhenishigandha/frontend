@@ -5,31 +5,6 @@ import DisplayCard from './DisplayCard';
 import { createMuiTheme } from '@material-ui/core'
 
 
-const theme = createMuiTheme({
-    overrides: {
-        MuiCard: {
-            root: {
-                'width': "288px",
-                "display": "flex",
-                "padding": "10px",
-                "overflow": "hidden",
-                "margin-top": "76px",
-                "line-height": "58px",
-                "border-radius": "12px",
-            }
-        }
-
-    }
-})
-
-
-function searchingFor(search) {
-    return function (x) {
-        return x.title.includes(search) || x.content.includes(search)
-    }
-}
-
-
 export default class NewArchive extends Component {
     constructor(props) {
         super(props);

@@ -68,6 +68,20 @@ class MoreOptions extends Component {
 
     }
 
+    handlecreatelabel = (value)=> {
+        if(this.props.createLabelNote)
+        this.props.toolsPropsTocreatelabel(value)
+    }
+    getLableToMoreOptions=(value)=>{
+        this.props.moreOptionsToDisplayCard(value)
+    }
+
+    handleaddNewlabel = (labels) =>{
+        console.log("New Labels in More Option", labels);
+        if(this.props.CreateNoteLabel){
+        this.props.CreateNoteLabel(labels)}
+    }
+
     render() {
         return (
             <PopupState variant="popper" >
@@ -107,8 +121,13 @@ class MoreOptions extends Component {
                                             </div>
                                             <div>
                                                 <GetLabel
+                                                    AddLabel={true}    
                                                     createLabelNote={"true"}
-                                                    noteID={this.props.noteID} />
+                                                    CreateNoteLabel ={this.handleaddNewlabel}
+                                                    toolsPropsTocreatelabel={this.handlecreatelabel}
+                                                    noteID={this.props.noteID} 
+                                                    getLableToMoreOptions={this.getLableToMoreOptions}
+                                                    />
                                             </div>
                                             <div onClick={this.handleCreateLabel} style={{ cursor: "pointer" }}>
                                                 <img src={require('../assets/images/add.svg')}

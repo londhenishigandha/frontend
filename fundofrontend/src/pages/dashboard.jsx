@@ -1,18 +1,16 @@
 import React, { Component } from "react";
 import DashboardComponent from "../components/dashboard";
-//import { withRouter } from 'react-router-dom'
 import CreateNote from "../components/createNote";
-import Notes from '../components/notes'
-// import createNote from "../components/createNote";
-import Reminder from '../components/reminderComponent'
 import NoteComponent from "../components/NoteComponent";
+import NewPinned from "../components/newPinned";
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state={
       view: false,
-      search: ""
+      search: "",
+      isPinned:false
 
     }
 
@@ -33,11 +31,20 @@ class Dashboard extends Component {
 
   }
 
+  NoteToPages = (value) => {
+    this.setState({
+      isPinned: value
+
+    })
+  }
+
  getNewNote = (newNote) => {
         console.log("newnote==>", newNote);
         this.noteToCards.current.displayCard(newNote);
     }
   render() {
+    console.log("Token",localStorage.getItem('token1'));
+    
     if (localStorage.getItem('token1') !== "true") {
       return (
         window.location.href = 'login'
@@ -54,18 +61,23 @@ class Dashboard extends Component {
           </div>
           <div>
             <CreateNote
-            getNewNote = {this.getNewNote}
+            getNewNote={this.getNewNote}
             ></CreateNote>
           </div>
+
+          <NewPinned
+            view={this.state.view}
+            search={this.state.search}
+           props={this.props}
+           isPinned={this.state.isPinned}
+          />
           <div>
-            {/* <Notes
-             
-            ></Notes> */}
             <NoteComponent
              view={this.state.view}
              search={this.state.search}
              props={this.props}
-             ref={this.noteToCards}></NoteComponent>
+             ref={this.noteToCards}
+             NoteToPages={this.NoteToPages}></NoteComponent>
           </div>
         </div>
       )

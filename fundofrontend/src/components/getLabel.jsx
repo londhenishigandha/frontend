@@ -86,14 +86,20 @@ export default class GetLabel extends Component {
                 'label': labelId
             }
             }
+            if(this.props.createLabelNote){
+                    console.log("New Note Label ", this.state.label_list);
+                    this.props.CreateNoteLabel(this.state.label_list)   
+            }
+            if(this.props.AddLabel){
             addLabel(addData)
-
                 .then(() => {
                     console.log("updated successfully");
+                    this.props.getLableToMoreOptions(true);
                 })
                 .catch((err) => {
                     console.log("error in addlabeltonote", err);
                 })
+            }
         }
             
     }
@@ -118,8 +124,6 @@ export default class GetLabel extends Component {
                                 </div>
                 )
         })
-
-
         const allLabels = this.state.allLabels.map(labels => {
             return (
                 <div style={{ display: "flex" }}>
@@ -159,13 +163,11 @@ export default class GetLabel extends Component {
                                         name="label"
                                     // onClick={() => this.handleEditLabel(labels.id)}
                                     />
-
                                     <img src={require('../assets/images/menuEdit.svg')}
                                         alt="edit label"
                                         onClick={() => this.handleUpdateLabels(labels.id)}
                                     />
                                 </div>
-
                                 :
                                 <InputBase
                                     value={labels.label}

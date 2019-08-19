@@ -8,7 +8,6 @@ import { MuiThemeProvider, createMuiTheme, Popover, Tooltip } from '@material-ui
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { withRouter } from 'react-router-dom';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import Drawer from '../components/drawer'
 import UserProfile from './userProfile';
 
@@ -98,6 +97,7 @@ class DashboardComponent extends Component {
     window.location.reload();
     this.props.reloadprops(event.target.value)
   }
+  
   handleview = (e) => {
     this.setState({
       listview: !this.state.listview

@@ -15,8 +15,6 @@ const theme = createMuiTheme({
         MuiCard: {
             root: {
                 display: "flex",
-                width: 461,     
-                marginTop: "76px",
                 lineHeight: "58px",
                 borderRadius: "12px",
                 padding: "10px"
@@ -35,16 +33,17 @@ class CreateNote extends Component {
             note: [],
             title: "",
             content: "",
-            label: "",
+            label: [],
             created_by: "",
             image: "",
             is_trash: "",
-            is_archieve: "",
-            is_pin: "",
+            is_archieve: false,
+            is_pin: false,
             color: '',
             reminder: null,
             searchText:'',
-            newNote : []
+            newNote : [],
+            label_list:[]
         }
         // To bind
         this.handleColor = this.handleColor.bind(this);
@@ -100,11 +99,20 @@ class CreateNote extends Component {
     }
 
     // for archive
-    handleArchive(value) {
+    // handleArchive(value) {
 
+    //     this.setState({
+    //         is_archieve: value
+    //     })
+    // }
+    handleArchive = () => {
+
+        
         this.setState({
-            is_archieve: value
+            is_archieve:true
         })
+        console.log("this.state.is_archieve",this.state.is_archieve);
+        
     }
     handlePin(value) {
         // const is_pin = event.target.value;
@@ -114,13 +122,12 @@ class CreateNote extends Component {
     }
 
 
-    handlecreatelabel(value) {
-
-        console.log("label", value);
-
+    handlecreatelabel = (value)=> {
         this.setState({
-            label: value
+            label : value
+        
         })
+        console.log("label", this.state.label);
     }
 
     // To submit
@@ -133,8 +140,10 @@ class CreateNote extends Component {
         var data = {
             'content': this.state.content,
             'title': this.state.title,
+            'is_archive':this.state.is_archieve,
             'color': this.state.color,
             'reminder': this.state.reminder,
+            'label': this.state.label_list
             // 'collaborate': [this.state.searchText]
         }
         console.log('data in note create ==>', data);
@@ -168,8 +177,17 @@ class CreateNote extends Component {
         
     }
 
+    handleaddlabel = (labels) =>{
+        console.log("New Labels in Create Note", labels);
+    this.setState({
+        label_list:labels
+    })
+    }
+
 
     render() {
+        console.log("labelklkkl", this.state.label);
+
         return (!this.state.openNote ?
             <div style={{
                 display: "flex",
@@ -177,7 +195,9 @@ class CreateNote extends Component {
             }}>
                 {/* card for note */}
                 <MuiThemeProvider theme={theme}>
-                    <Card className="Mainnotes"  >
+                    <Card className="Mainnotes" style={{
+                marginTop: "76px", width:"461px"
+                    }} >
                         <div className="Notemainnn">
                             <div onClick={this.handleNotes}>
                                 <InputBase className="noteiinput"
@@ -198,14 +218,17 @@ class CreateNote extends Component {
             }}>
                 <div>
                     <MuiThemeProvider theme={theme}>
-                        <Card className="notes card-desc" style={{ backgroundColor: this.state.color }} >
+                        <Card className="notes card-desc" style={{ backgroundColor: this.state.color, 
+                        marginTop: "76px", width:"461px"
+                                
+                        }} >
 
                             <div className="Notemainnn">
                                 <div>
                                     {/* For pin icon */}
                                     <div className="pinnote">
                                         <Tooltip title="pin">
-                                            <img src={require('../assets/images/pin.png')}
+                                            <img src={require('../assets/images/unpin.svg')}
                                                 alt="pin"
                                             />
                                         </Tooltip>
@@ -242,6 +265,12 @@ class CreateNote extends Component {
                                 <div>
                                     {this.state.reminder}
                                 </div>
+                                {
+                                    this.state.label ? <div>
+                                    {this.state.label}
+                                </div> :null
+                                }
+                                
                                 <div className="IconBottom">
                                     <div>
                                         {/* To set reminder */}
@@ -256,7 +285,7 @@ class CreateNote extends Component {
                                     </div>
                                     {/* To set collaborator  */}
                                         <Collaborator
-                                        searchTextToCreateNote = {this.searchTextToCreateNote}
+                                        searchTextToCreateNote={this.searchTextToCreateNote}
                                         createNoteToCollaborator={true}
                                         />
                                     {/* To set or change the color of notes */}
@@ -267,19 +296,28 @@ class CreateNote extends Component {
                                         />
                                     </div >
                                     {/* To archive the notes */}
+                                    {/* <div>
+                                        <Tooltip title="Archive">
+                                            <img src={require('../assets/images/archieve.svg')}
+                                                alt="Archieve"
+                                                on
+                                            />
+                                        </Tooltip>
+                                    </div> */}
                                     <div>
                                         <Tooltip title="Archive">
                                             <img src={require('../assets/images/archieve.svg')}
                                                 alt="Archieve"
+                                                onClick={() => this.handleArchive()}
+                                                style={{ cursor: "pointer" }}
                                             />
                                         </Tooltip>
-                                    </div>
+                                        </div>
                                     {/* To add image */}
                                     <div>
                                         <Tooltip title="Add image">
                                             <img src={require('../assets/images/addImageIcon.svg')}
-                                                alt="Add Image"
-                                            />
+                                                alt="Add Image"/>
                                         </Tooltip>
                                     </div>
                                     {/* for more options */}
@@ -290,6 +328,7 @@ class CreateNote extends Component {
                                                 noteID={''}
                                                 moreOptionsToCreateNote={this.moreOptionsToCreateNote}
                                                 createNoteLabel={"true"}
+                                                CreateNoteLabel = {this.handleaddlabel}
                                             ></MoreOptions>
                                         </Tooltip>
                                     </div>

@@ -22,14 +22,6 @@ const theme = createMuiTheme({
     }
 })
 
-
-function searchingFor(search) {
-    return function (x) {
-        return x.title.includes(search) || x.content.includes(search)
-    }
-}
-
-
 export default class NewTrash extends Component {
     constructor(props) {
         super(props);
@@ -41,7 +33,6 @@ export default class NewTrash extends Component {
     componentDidMount() {
         this.getNotes();
     }
-
     getNotes() {
         trash()
             .then(response => {
@@ -64,8 +55,6 @@ export default class NewTrash extends Component {
                  searchNote={this.props.search}
                 ></DisplayCard>
             </div>
-
         )
-
     }
 }

@@ -11,6 +11,7 @@ import Archive from './pages/archive';
 import Reminder from './pages/reminder';
 import Trash from './pages/trash';
 import { hot } from 'react-hot-loader/root';
+import PinNotes from './pages/PinNotes';
 
 
 class App extends Component {
@@ -28,6 +29,7 @@ class App extends Component {
           <Route path='/archive' component={Archive}></Route>
           <Route path='/reminder' component={Reminder}></Route>
           <Route path='/trash' component={Trash}></Route>
+          <Route path='/pin' component={PinNotes}></Route>
         </Router>
       </div>
     );

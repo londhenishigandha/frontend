@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import NewArchive from "../components/newArchive";
-import CreateNote from "../components/createNote"
 import DashboardComponent from '../components/dashboard'
 
 class Archive extends Component {

@@ -18,14 +18,14 @@ const theme = createMuiTheme({
                 "border-radius": "12px",
             }
         },
-        MuiDialog:{
+        MuiDialog: {
             paperWidthSm: {
-                width:"500px",
-                maxHeight:"500px",
-                borderRadius:"10px"
+                width: "500px",
+                maxHeight: "500px",
+                borderRadius: "10px"
             }
         }
-        
+
     }
 })
 
@@ -42,18 +42,17 @@ export default class Collaborator extends Component {
             collaborators: [],
             suggetions: [],
             userList: [],
-            user:''
+            user: ''
 
         }
     }
-
 
     componentDidMount() {
         getAllUsers()
             .then(response => {
                 let userArray = [];
                 userArray = response.data.map(key => {
-                    console.log("key ", key);
+                    console.log("key", key);
                     return key;
                 })
                 this.setState({
@@ -61,7 +60,7 @@ export default class Collaborator extends Component {
                 })
             })
             .catch(err => {
-                console.log("error in collab : ", err);
+                console.log("error in collaborate : ", err);
             })
     }
 
@@ -73,13 +72,12 @@ export default class Collaborator extends Component {
 
     handleToggle = () => {
         this.setState({ open: true });
-        //this.props.handleToggle(!this.state.open)
     }
 
     handleClose = () => {
         this.setState({ open: false });
-
     }
+
     handleChangeEvent = (event) => {
         this.setState({
             [event.target.name]: event.target.value
@@ -88,7 +86,6 @@ export default class Collaborator extends Component {
 
     handleOnchange = (e) => {
         console.log("User List", this.state.userList);
-
         const value = e.target.value;
         let suggetions = [];
         if (value.length > 0) {
@@ -108,14 +105,9 @@ export default class Collaborator extends Component {
             console.log("error in handle color event");
         }
     }
-
-
-
-
     /**
-     * render suggetion methos
+     * render suggetion method
      */
-
     renderSuggetions() {
         const { suggetions } = this.state;
         if (suggetions.length === 0) {
@@ -126,7 +118,8 @@ export default class Collaborator extends Component {
                 <List>
                     {suggetions.map((users) =>
                         users !== localStorage.getItem('email') &&
-                        <ListItem onClick={() => this.suggetionSelected(users)} key={users.userId}><ListItemText>{users}</ListItemText>
+                        <ListItem onClick={() => this.suggetionSelected(users)} key={users.userId}>
+                            <ListItemText>{users}</ListItemText>
                         </ListItem>
                     )}
                 </List>
@@ -134,17 +127,12 @@ export default class Collaborator extends Component {
         )
     }
 
-     suggetionSelected = async(value) =>{
+    suggetionSelected = async (value) => {
         this.setState(() => ({
             searchText: value,
             suggetions: [],
         }))
     }
-
-    // this.setState({
-    //     searchText:value
-    // })
-
 
     handleSaveCollaborator = () => {
         console.log(this.state.searchText);
@@ -154,14 +142,15 @@ export default class Collaborator extends Component {
                 searchText: '',
                 open: false,
             })
-        } else{
+        } else {
             var data = {
                 'collaborate': this.state.searchText
             }
             addcollaboratorsNotes(data, this.props.noteID)
-    
-                .then((response) => {
+
+                .then(async (response) => {
                     console.log("collab added successfully", response);
+                    await this.props.saveCollaborator(true)
                     this.setState({
                         searchText: '',
                         open: false,
@@ -171,40 +160,28 @@ export default class Collaborator extends Component {
                     console.log("err in collab", error);
                 })
         }
-        
+
     }
 
     render() {
         const Fname = localStorage.getItem('first_name')
         const LName = localStorage.getItem('last_name')
         const Email = localStorage.getItem('email')
-        console.log("sdadasdsadasd",this.props.collaboratedUsers);
-        
-        // const collaboratedUsers = this.props.collaboratorUser(key => {
-        //     return(
-        //         <div>
-        //             <Avatar>
-        //                 <span>{(key.email)}</span>
-        //             </Avatar>
-        //         </div>
-        //     )
-        // })
+        console.log("sdadasdsadasd", this.props.collaboratedUsers);
         var users = ''
         if (this.props.CreateNoteToCollaborator) {
-        users= this.props.collaboratorUser.map((users) =>
-            users !== localStorage.getItem('email') &&
-            <div style={{display:"flex"}}>
-                {/* <div><Avatar>
-                    {users.toString().subString(0,1)}
-                    </Avatar></div> */}
-                    <Avatar><span style={{alignSelf:"center"}}>{(users).toString().substring(0,1).toUpperCase()}</span></Avatar>
-                <div style={{alignSelf:"center", padding:"2%"}}>{users}</div>
-            </div>
-    )
-                }
+            users = this.props.collaboratorUser.map((users) =>
+                users !== localStorage.getItem('email') &&
+                <div style={{ display: "flex" }}>
+                    <Avatar><span style={{ alignSelf: "center" }}>
+                    {(users).toString().substring(0, 1).toUpperCase()}</span>
+                    </Avatar>
+                    <div style={{ alignSelf: "cen9ter", padding: "2%" }}>{users}</div>
+                </div>
+            )
+        }
         return (
             <div>
-
                 <MuiThemeProvider theme={theme}>
                     <Tooltip title="collaborate">
                         <img src={require('../assets/images/collaboratorIcon.svg')}
@@ -215,9 +192,8 @@ export default class Collaborator extends Component {
                     <Dialog
                         open={this.state.open}
                         onClose={this.handleClose}
-                        
-                    >
 
+                    >
                         <DialogTitle id="customized-dialog-title" style={{ borderBottom: "solid 1px lightgray", padding: "10px 24px" }} onClose={this.handleClose}>
                             Collaborator
                      </DialogTitle>
@@ -235,39 +211,27 @@ export default class Collaborator extends Component {
                                         {Email}<br />
                                     </div>
                                 </div>
-                                </div>
-                                </DialogContent>
-                                <DialogContent>
-                                    {users}
-                                </DialogContent>
-                                <DialogContent>
-                                <div style={{ display: "flex", width: "100%"}}>
-                                    {/* <div className="collab-input-search-div"> */}
-                                    {/* <div > */}
-                                    {/* <div className="collabupload" style={{ marginLeft: "-40px"}}>
-                                        
-                                    {/* </div> */}
-                                    <Avatar>
-                                    <img className="collabwidth" style={{ }}
-                                             src={require('../assets/images/collaborator1.svg')}
-                                            alt="collaborate Pic" /> 
-                                            </Avatar>
-                                        <InputBase
-                                            type="text"
-                                            placeholder="Person or email to share with"
-                                            name="searchText"
-                                            value={this.state.searchText}
-                                            onChange={this.handleOnchange}
-                                            style={{ fontSize: '0.8rem', width: "100%", padding:"2%" }}
-                                        />
-                                    {/* </div>
-                                    </div> */}
-                                </div>
-
-                           
-
-
-
+                            </div>
+                        </DialogContent>
+                        <DialogContent>
+                            {users}
+                        </DialogContent>
+                        <DialogContent>
+                            <div style={{ display: "flex", width: "100%" }}>
+                                <Avatar>
+                                    <img className="collabwidth" style={{}}
+                                        src={require('../assets/images/collaborator1.svg')}
+                                        alt="collaborate Pic" />
+                                </Avatar>
+                                <InputBase
+                                    type="text"
+                                    placeholder="Person or email to share with"
+                                    name="searchText"
+                                    value={this.state.searchText}
+                                    onChange={this.handleOnchange}
+                                    style={{ fontSize: '0.8rem', width: "100%", padding: "2%" }}
+                                />
+                            </div>
                             {this.renderSuggetions()}
 
                         </DialogContent>

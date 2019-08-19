@@ -2,6 +2,18 @@ import React, { Component } from 'react'
 import { InputBase, Dialog, Tooltip } from '@material-ui/core';
 import { createLabel } from '../services/labelService';
 import GetLabel from './getLabel';
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core";
+
+const theme = createMuiTheme({
+    overrides:{
+        MuiDialog:{
+            paperWidthSm:{
+                width:"300px",
+                height:"300px"
+            }
+        }
+    }
+})
 
 
 class CreateLabel extends Component {
@@ -55,18 +67,19 @@ class CreateLabel extends Component {
                       />
                     Edit Labels 
                 </div>
+                <MuiThemeProvider theme={theme}>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
                     aria-labelledby="responsive-dialog-title"
                 >
 
-                    <div>
+                    <div  style={{padding:"4%"}}>
                         
                         <InputBase 
                         placeholder="Create label"
                         onChange={this.handleChange}
-                        name ="label"
+                        name="label"
                         />
                         <Tooltip title="Create label">
                         <img src={require('../assets/images/check.svg')} 
@@ -75,10 +88,13 @@ class CreateLabel extends Component {
                         />
                         </Tooltip>
                     </div>
-                    <div>
+                    <div style={{padding:"4%"}}>
                         <GetLabel />
                     </div>
+                    
                 </Dialog>
+                </MuiThemeProvider>
+                
             </div>
 
         )
