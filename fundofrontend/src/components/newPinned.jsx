@@ -51,11 +51,7 @@ export default class NewPinned extends Component {
         }
     }
     render() {
-        if(this.props.isPinned){
-            this.getPinnedNotes();
-        }
-        console.log("pinned ", this.state.pinnedNotes);
-        
+       
         return (
             <div >
                 <h4>

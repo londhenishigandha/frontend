@@ -102,7 +102,7 @@ export default class Collaborator extends Component {
             this.props.toolsPropsToCollaborate(evt.target.value, this.props.noteID);
             console.log(evt.target.value);
         } catch (err) {
-            console.log("error in handle color event");
+            console.log("error in handle collaborate");
         }
     }
     /**

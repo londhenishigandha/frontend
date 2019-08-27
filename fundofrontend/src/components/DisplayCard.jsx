@@ -53,7 +53,6 @@ export default class DisplayCard extends Component {
 
     handledelete = () => {
         console.log("Delete Reminder");
-
     }
     handledeletelabel = (labelname, noteID) => {
         console.log("Delete label", labelname , noteID);
@@ -222,8 +221,6 @@ export default class DisplayCard extends Component {
             .then(async response => {
                 console.log("pin succcessfylly .....", response);
                 await this.props.displayCardToNotes(true)
-                // await this.props.displayCardToPinNotes(true)
-
             })
             .catch(err => {
                 console.log("Error", err);
@@ -231,7 +228,6 @@ export default class DisplayCard extends Component {
     }
     handleUnPin = (noteId) => {
         var data = {
-          
             'is_pin': false
         }
         updateNote(noteId,data)
